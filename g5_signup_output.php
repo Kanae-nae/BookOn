@@ -88,11 +88,11 @@ try {
         $url = 'g5_signup_input.php';
     }
 } catch (PDOException $e) {
-    DBの接続で何かしらのエラーが発生した場合
+    // DBの接続で何かしらのエラーが発生した場合
     $msg = 'エラー：システム上のトラブルが発生しました。' . $e;
     $url = 'g5_signup_input.php';
 
-    jsのアラートで文章を表示→別画面に飛ばす
+    // jsのアラートで文章を表示→別画面に飛ばす
     echo '<script>';
     echo 'alert(' . json_encode($msg) . ');';
     echo 'location.href = ' . json_encode($url) . ';';
