@@ -1,106 +1,49 @@
+<?php session_start(); ?>
+
+<!-- ユーザー側ヘッダー -->
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BOOK ON</title>
-    <style>
-        /* body全体のスタイルをリセットし、ナビゲーション分のスペースを確保 */
-        body {
-            margin: 0;
-            padding-bottom: 60px; /* フッターの高さに合わせて小さく（約60px） */
-            font-family: sans-serif;
-            background-color: #ffffff;
-        }
-
-        /* ヘッダーのスタイル (大きく) */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 15px; /* 上下のパディングを増やして大きく */
-            border-bottom: 1px solid hsl(0, 6%, 83%);
-            background-color: #ffffff;
-        }
-
-        /* ログイン/会員登録ボタンのスタイル (大きく) */
-        .login-btn {
-            display: flex;
-            align-items: center;
-            background-color: #005A9C;
-            color: white;
-            padding: 8px 15px 8px 12px; /* パディングを増やして大きく */
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 14px; /* テキストを大きく */
-            font-weight: bold;
-        }
-        .login-btn span:first-child {
-            display: inline-block;
-            width: 32px; /* アイコン領域を大きく */
-            height: 32px; /* アイコン領域を大きく */
-            margin-right: 8px;
-            color: white;
-            text-align: center;
-            line-height: 32px;
-            font-size: 20px; /* アイコンを大きく */
-        }
-        .login-btn span:last-child {
-             line-height: 1.2;
-        }
-
-        /* 下部固定ナビゲーションのスタイル (小さく) */
-        nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%; /* 横幅いっぱい */
-            z-index: 1000;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-            
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            background-color: #f0e641;
-            padding: 8px 0; /* 上下のパディングを減らして小さく */
-        }
-
-        /* ナビゲーションリンクの共通スタイル (小さく) */
-        nav a {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #707070;
-            font-size: 10px; /* テキストを小さく */
-            font-weight: 500;
-            width: 70px;
-            text-align: center;
-        }
-        nav a div {
-            width: 28px; /* アイコン領域を小さく */
-            height: 28px; /* アイコン領域を小さく */
-            margin-bottom: 2px; /* マージンを減らす */
-        }
-        /* navアイコンのサイズを小さく */
-        nav a svg {
-            color: #707070;
-            width: 20px;
-            height: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="css/favorite.css">
 </head>
 <body>
 
 <header>
     <div class="logo">
-        <img src="image/logo.png" alt="BOOK ON Logo" style="height: 30px;">
+        <a href="index.php">
+            <img src="image/logo.png" alt="BOOK ON Logo" style="height: 40px;">
+        </a>
     </div>
 
-    <a href="/login-register" class="login-btn">
-        <span>→]</span>
-        <span>
-            会員登録<br>ログイン
-        </span>
-    </a>
+    <?php if(isset($_SESSION['user'])){ ?>
+        <!-- ログイン時の処理(ログアウト) -->
+        <a href="/bookon/logout.php" class="logout-btn">
+            <span>[→</span>
+            <span>
+                ログアウト
+            </span>
+        </a>
+    <?php } else { ?>
+        <!-- ログアウト時の処理(ログイン) -->
+        <a href="/bookon/g4_login_input.php" class="login-btn">
+            <span>→]</span>
+            <span>
+                会員登録<br>ログイン
+            </span>
+        </a>
+
+        <!-- ログアウトボタンの確認用(普段はコメントアウト) -->
+        <!-- <a href="/bookon/logout.php" class="logout-btn">
+            <span>[→</span>
+            <span>
+                ログアウト
+            </span>
+        </a> -->
+    <?php } ?>
 </header>
