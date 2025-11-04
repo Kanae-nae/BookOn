@@ -23,7 +23,7 @@
 
     <?php if(isset($_SESSION['user'])){ ?>
         <!-- ログイン時の処理(ログアウト) -->
-        <a href="/bookon/logout.php" class="logout-btn">
+        <a href="logout.php" class="logout-btn">
             <span>[→</span>
             <span>
                 ログアウト
@@ -31,7 +31,7 @@
         </a>
     <?php } else { ?>
         <!-- ログアウト時の処理(ログイン) -->
-        <a href="/bookon/g4_login_input.php" class="login-btn">
+        <a href="g4_login_input.php" class="login-btn">
             <span>→]</span>
             <span>
                 会員登録<br>ログイン
@@ -39,7 +39,7 @@
         </a>
 
         <!-- ログアウトボタンの確認用(普段はコメントアウト) -->
-        <!-- <a href="/bookon/logout.php" class="logout-btn">
+        <!-- <a href="logout.php" class="logout-btn">
             <span>[→</span>
             <span>
                 ログアウト
