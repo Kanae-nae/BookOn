@@ -1,5 +1,5 @@
+<?php require 'common/header.php'; ?>
 <!-- ホーム画面(G1) -->
-<?php include 'common/header.php'; ?>
 
 <main style="padding: 20px;">
     <h1>メインコンテンツ</h1>
@@ -9,6 +9,6 @@
 </main>
 
 <!-- メニューは本来使わないけど、テスト用に入れている -->
-<?php include 'common/menu.php'; ?>
+<?php require 'common/menu.php'; ?>
 
-<?php include 'common/footer.php'; ?>
+<?php require 'common/footer.php'; ?>

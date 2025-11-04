@@ -1,9 +1,7 @@
 <?php session_start(); ?>
-
 <!-- 新規登録画面(G5)の登録側 -->
 
 <?php require 'common/db-connect.php'; ?>
-<?php require 'common/header.php'; ?>
 
 <?php
 
