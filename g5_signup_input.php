@@ -105,6 +105,6 @@
 
         <input type="submit" value="登録">
     </form>
-    <a href="/bookon/g4_login_input.php">戻る</a>
+    <a href="g4_login_input.php">戻る</a>
 
 </main>

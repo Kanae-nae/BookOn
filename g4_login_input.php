@@ -25,7 +25,7 @@
 <main style="padding: 20px;">
     <h1>会員登録・ログイン</h1>
     <h2>新規会員登録の方</h2>
-    <a href="/bookon/g5_signup_input.php">会員登録</a>
+    <a href="g5_signup_input.php">会員登録</a>
     <h2>アカウントをお持ちの方</h2>
     <form action="" method="post">
         メールアドレス<input type="text" name="mail"><br>
