@@ -27,7 +27,7 @@
     <h2>新規会員登録の方</h2>
     <a href="g5_signup_input.php">会員登録</a>
     <h2>アカウントをお持ちの方</h2>
-    <form action="" method="post">
+    <form action="g4_login_output.php" method="post">
         メールアドレス<input type="text" name="mail"><br>
         パスワード<input type="password" name="pass"><br>
         <input type="submit" value="ログイン">
