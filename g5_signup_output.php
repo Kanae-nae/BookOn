@@ -2,6 +2,7 @@
 <!-- 新規登録画面(G5)の登録側 -->
 
 <?php require 'common/db-connect.php'; ?>
+<?php require 'common/prefectures.php'; ?>
 
 <?php
 
@@ -19,11 +20,10 @@ try {
     // (誕生日はセレクトボックスで、年月日に分割されて渡される)
     $birth_date = $year."-".$month."-".$date;
 
-    // 郵便番号の加工(数値3-4→数値7に)
-    $zip_code1 = strval($_POST['zip_code1']);
-    $zip_code2 = strval($_POST['zip_code2']);
-    $zip_code_str = $zip_code1 . $zip_code2;
-    $zip_code = (int)$zip_code;
+    // 都道府県の加工
+    // (数字の方が渡されるので都道府県名に変更)
+    $prefCode = $_POST['prefecture'];
+    $prefecture = $PREFECTURES[$prefCode] ?? null;
 
     // メールアドレスの重複が無いかどうか、SQLを実行して確かめる
     $sql = 'SELECT * FROM user WHERE mail_address=:mail';
@@ -60,8 +60,8 @@ try {
         $stmt->bindValue(':first_name',        htmlspecialchars($_POST['first_name']),        PDO::PARAM_STR);
         $stmt->bindValue(':last_name_kana',    htmlspecialchars($_POST['last_name_kana']),    PDO::PARAM_STR);
         $stmt->bindValue(':first_name_kana',   htmlspecialchars($_POST['first_name_kana']),   PDO::PARAM_STR);
-        $stmt->bindValue(':zip_code',          $zip_code,          PDO::PARAM_INT);
-        $stmt->bindValue(':prefecture',        htmlspecialchars($_POST['prefecture']),        PDO::PARAM_STR);
+        $stmt->bindValue(':zip_code',          htmlspecialchars($_POST['zip_code']),          PDO::PARAM_INT);
+        $stmt->bindValue(':prefecture',        $prefecture,        PDO::PARAM_STR);
         $stmt->bindValue(':sity',              htmlspecialchars($_POST['sity']),              PDO::PARAM_STR);
         $stmt->bindValue(':town',              htmlspecialchars($_POST['town']),              PDO::PARAM_STR);
         $stmt->bindValue(':street_number',     htmlspecialchars($_POST['street_number']),     PDO::PARAM_STR);
@@ -87,8 +87,9 @@ try {
     }
 } catch (PDOException $e) {
     // DBの接続で何かしらのエラーが発生した場合
-    $msg = 'エラー：システム上のトラブルが発生しました。' . $e;
+    $msg = 'エラー：システム上のトラブルが発生しました。';
     $url = 'g5_signup_input.php';
+    $pdo = null;
 
     // jsのアラートで文章を表示→別画面に飛ばす
     echo '<script>';
@@ -99,11 +100,11 @@ try {
     exit;
 }
 
+$pdo = null;
+
 echo '<script>';
 echo 'alert(' . json_encode($msg) . ');';
 echo 'location.href = ' . json_encode($url) . ';';
 echo '</script>';
 exit;
 ?>
-
-<?php require 'common/footer.php'; ?>

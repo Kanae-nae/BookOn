@@ -1,14 +1,12 @@
-<?php session_start(); ?>
+<!-- ログアウトの確認処理(js) -->
 
-<?php
-unset($_SESSION['user']);
-
-$msg = 'ログアウトしました。';
-$url = 'index.php';
-
-echo '<script>';
-echo 'alert(' . json_encode($msg) . ');';
-echo 'location.href = ' . json_encode($url) . ';';
-echo '</script>';
-exit;
-?>
+<script>
+    if(confirm("ログアウトしてもよろしいですか？")) {
+    fetch("logout_process.php").then(() => {
+        alert("ログアウトしました。");
+        location.href = "index.php";
+        });
+    } else {
+        history.back();
+    }
+</script>
