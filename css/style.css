@@ -22,8 +22,7 @@ h1 {
     padding: 20px 0 15px;
     margin: 0;
 }
-
-/* ヘッダーのスタイル (大きく) */
+/* ヘッダーのスタイル */
 header {
     display: flex;
     justify-content: space-between;
@@ -37,6 +36,8 @@ header {
     left: 0;
     width: 100%;
     z-index: 1000;
+    /* ★★★ ここを追加/修正 ★★★ */
+    box-sizing: border-box; 
 }
 
 /* ログイン/会員登録ボタンのスタイル (大きく) */
@@ -133,4 +134,15 @@ nav a svg {
     color: #707070;
     width: 20px;
     height: 20px;
+}
+/* ヘッダーを上部固定したときに本文が隠れないように調整 */
+body {
+    padding-top: 80px; /* headerの高さに合わせて調整（70〜80pxが目安） */
+}
+
+/* スマホ画面用に微調整 */
+@media (max-width: 600px) {
+    body {
+        padding-top: 75px;
+    }
 }
