@@ -45,7 +45,7 @@ try {
         $sql = "INSERT INTO user VALUES (
             null, :user_name, :mail_address, :password, :birth_date, 
             :last_name, :first_name, :last_name_kana, :first_name_kana, :zip_code, :prefecture,
-            :sity, :town, :street_number, :self_introduction, :icon_url, :building_name, :mail_magazine, :review_public, :order_public
+            :city, :town, :street_number, :self_introduction, :icon_url, :building_name, :mail_magazine, :review_public, :order_public
         )";
 
         $stmt = $pdo->prepare($sql);
@@ -62,7 +62,7 @@ try {
         $stmt->bindValue(':first_name_kana',   htmlspecialchars($_POST['first_name_kana']),   PDO::PARAM_STR);
         $stmt->bindValue(':zip_code',          htmlspecialchars($_POST['zip_code']),          PDO::PARAM_INT);
         $stmt->bindValue(':prefecture',        $prefecture,        PDO::PARAM_STR);
-        $stmt->bindValue(':sity',              htmlspecialchars($_POST['sity']),              PDO::PARAM_STR);
+        $stmt->bindValue(':city',              htmlspecialchars($_POST['city']),              PDO::PARAM_STR);
         $stmt->bindValue(':town',              htmlspecialchars($_POST['town']),              PDO::PARAM_STR);
         $stmt->bindValue(':street_number',     htmlspecialchars($_POST['street_number']),     PDO::PARAM_STR);
         $stmt->bindValue(':building_name',     htmlspecialchars($_POST['building_name']),     PDO::PARAM_STR);
@@ -87,7 +87,7 @@ try {
     }
 } catch (PDOException $e) {
     // DBの接続で何かしらのエラーが発生した場合
-    $msg = 'エラー：システム上のトラブルが発生しました。';
+    $msg = 'エラー：システム上のトラブルが発生しました。'.$e;
     $url = 'g5_signup_input.php';
     $pdo = null;
 

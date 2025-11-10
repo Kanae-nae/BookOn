@@ -1,46 +1,44 @@
+<!-- ログイン画面(G4)の入力側 -->
 <!DOCTYPE html>
-
 <html lang="ja">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>会員登録・ログイン</title>
-
     <link rel="stylesheet" href="css/header_only.css">
-
     <link rel="stylesheet" href="css/g4.css">
-
 </head>
 
 <body>
-
-    <?php include 'common/header_only.php'; ?>
+    <header class="logo-only-header">
+        <div class="logo">
+            <a href="index.php">
+                <img src="image/logo.png" alt="BOOK ON Logo">
+            </a>
+        </div>
+    </header>
 
     <main class="login-container">
-
         <h1>会員登録・ログイン</h1>
         <section class="card">
             <h2>新規会員登録の方</h2>
-            <a href="register.php" class="btn btn-primary">会員登録</a>
+            <a href="g5_signup_input.php" class="btn btn-primary">会員登録</a>
         </section>
         <section class="card">
 
             <h2>アカウントをお持ちの方</h2>
 
-            <form action="login-output.php" method="post">
+            <form action="g4_login_output.php" method="post">
 
                 <div class="form-group">
                     <label for="email">メールアドレス</label>
-                    <input type="email" id="email" name="email" placeholder="bookon@example.com" required>
+                    <input type="email" id="email" name="mail" placeholder="bookon@example.com" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">パスワード</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="pass" required>
                 </div>
 
                 <ul class="password-rules">
@@ -53,9 +51,6 @@
 
             </form>
         </section>
-
     </main>
-
 </body>
-
 </html>
