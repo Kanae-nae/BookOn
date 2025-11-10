@@ -1,0 +1,25 @@
+<!-- htmlとjsのみ(css不使用)のひな型 -->
+
+<label>郵便番号</label><br>
+<input type="text" name="zip_code" id="zipcode" maxlength="7" placeholder="ハイフン「-」なしで入力">
+<button id="search">住所検索</button><br>
+
+<label>都道府県</label><br>
+<select id="prefecture" name="prefecture">
+    <option value=""></option>
+</select><br>
+
+<label>市区町村</label><br>
+<input type="text" name="sity" id="city"><br>
+
+<label>町名</label><br>
+<input type="text" name="town" id="town"><br>
+
+<label>番地</label><br>
+<input type="text" name="street_number" id="address"><br>
+
+<label>建物名・部屋番号</label><br>
+<input type="text" name="building_name"><br>
+
+<p id="error" class="error"></p>
+<script src="script/address.js"></script>

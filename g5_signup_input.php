@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <body>
+
     <?php include 'common/header_only.php'; ?>
 <main>
     <h1>新規会員登録</h1>
@@ -204,9 +205,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div class="input-inline date-select">
                         <div class="select">
-                            <select id="birth_year" name="birth_year" required>
-                                <option value="">年</option>
-                            </select> 
+                            <select id="birth_year" name="year" required>
+                                <?php
+                                for($i=1925; $i<2026; $i++){
+                                    echo '<option value = "'.$i.'">年</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
                         <span>年</span>
                         <div class="select">
@@ -345,3 +350,49 @@ document.addEventListener('DOMContentLoaded', function() {
 </main>
 </body>
 </html>
+
+
+        年<br>
+        <select name="year">
+            <?php
+            for($i=1925; $i<2026; $i++){
+                echo '<option value = "'.$i.'">'.$i.'</option>';
+            }
+            ?>
+        </select><br>
+
+        月<br>
+        <select name="month">
+            <?php
+            for($i=1; $i<13; $i++){
+                if($i < 10){
+                    $i = '0'.strval($i);
+                }
+                echo '<option value = "'.$i.'">'.$i.'</option>';
+            }
+            ?>
+        </select><br>
+
+        日<br>
+        <select name="date">
+            <?php
+            for($i=1; $i<32; $i++){
+                if($i < 10){
+                    $i = '0'.strval($i);
+                }
+                echo '<option value = "'.$i.'">'.$i.'</option>';
+            }
+            ?>
+        </select><br>
+
+        <?php require "common/address.html"; ?>
+
+        メールの配信<br>
+        <div><input type="radio" name="mail_magazine" value="true" required>希望する</div>
+        <div><input type="radio" name="mail_magazine" value="false">希望しない</div>
+
+        <input type="submit" value="登録">
+    </form>
+    <a href="g4_login_input.php">戻る</a>
+
+</main>
