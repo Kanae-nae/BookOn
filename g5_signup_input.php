@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BOOK ON</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/cart.css">
-    <link rel="stylesheet" href="css/favorite.css">
+    <script src="script/prefectures.js"></script>
 </head>
 <body>
 
@@ -21,7 +20,7 @@
 </header>
 
 <main style="padding: 20px;">
-    <h1>新規会員登録</h1>
+    <h1 class="title">新規会員登録</h1>
 
     <form action="g5_signup_output.php" method="post">
         ユーザーネーム<br>
@@ -78,26 +77,7 @@
             ?>
         </select><br>
 
-        郵便番号(前半)<br>
-        <input type="text" name="zip_cpde1" required><br>
-
-        郵便番号(後半)<br>
-        <input type="text" name="zip_cpde2" required><br>
-
-        都道府県<br>
-        <input type="text" name="prefecture" required><br>
-
-        市区町村<br>
-        <input type="text" name="sity" required><br>
-
-        町名<br>
-        <input type="text" name="town" required><br>
-
-        番地<br>
-        <input type="text" name="street_number" required><br>
-
-        建物名など<br>
-        <input type="text" name="building_name"><br>
+        <?php require "common/address.html"; ?>
 
         メールの配信<br>
         <div><input type="radio" name="mail_magazine" value="true" required>希望する</div>
