@@ -33,7 +33,7 @@ try {
             'first_name_kana'   => $row['first_name_kana'],
             'zip_code'          => $row['zip_code'],
             'prefecture'        => $row['prefecture'],
-            'sity'              => $row['sity'],
+            'city'              => $row['city'],
             'town'              => $row['town'],
             'street_number'     => $row['street_number'],
             'building_name'     => $row['building_name'],
