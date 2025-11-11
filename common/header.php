@@ -23,7 +23,7 @@
 
     <?php if(isset($_SESSION['user'])){ ?>
         <!-- ログイン時の処理(ログアウト) -->
-        <a href="logout.php" class="logout-btn">
+        <a href="common/logout.php" class="logout-btn">
             <span>[→</span>
             <span>
                 ログアウト
@@ -39,7 +39,7 @@
         </a>
 
         <!-- ログアウトボタンの確認用(普段はコメントアウト) -->
-        <!-- <a href="logout.php" class="logout-btn">
+        <!-- <a href="" class="logout-btn">
             <span>[→</span>
             <span>
                 ログアウト
