@@ -1,0 +1,53 @@
+<div class="form-group address-group required-field">
+    <div class="label-with-badge">
+        <div class="icon-label-group">
+            <span class="icon"><i class="fas fa-book-open"></i></span>
+            <label>住所</label>
+        </div>
+        <span class="required-badge">必須</span>
+    </div>
+    <div class="label-with-guide">
+        <label>郵便番号</label>
+        <p class="guide-text">※郵便番号をもとに自動で入力します</p>
+        <p class="guide-text">ハイフン「-」なしで入力</p>
+    </div>
+    <div class="input-inline zipcode-input">
+        <input type="text" name="zip_code" id="zipcode" maxlength="7" class="input zip-part" placeholder="1000001"
+            required>
+        <button type="button" id="search" class="zip-search-btn">検索</button>
+        <p id="error" style="color: red;"></p>
+    </div>
+
+    <div class="address-field">
+        <label for="prefecture">都道府県</label>
+        <div class="select">
+            <select id="prefecture" name="prefecture">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+
+    <div class="address-field">
+        <label for="city">市区町村</label>
+        <input type="text" id="city" name="city" placeholder="千代田区" value="" class="input" required>
+    </div>
+
+    <div class="address-field">
+        <label for="town">町名</label>
+        <input type="text" id="town" name="town" placeholder="千代田" value="" class="input" required
+            style="margin-bottom: 0;">
+    </div>
+
+    <div class="address-field">
+        <label for="street">番地</label>
+        <input type="text" id="street" name="street_number" placeholder="1-1" value="" class="input" required
+            style="margin-bottom: 0;">
+    </div>
+
+    <div class="address-field">
+        <label for="mansion" class="guide-text" style="font-size: 1rem; color: #555; font-weight: bold;">建物名など</label>
+        <input type="text" id="mansion" name="building_name" class="input">
+    </div>
+</div>
+
+<script src="script/address.js"></script>

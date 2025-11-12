@@ -1,0 +1,117 @@
+@charset "utf-8";
+
+/*====================2. 会員情報セクション (黄色いエリア)====================*/
+
+/* 黄色い背景のコンテナ */
+.form-group.required-field {
+    background-color: #ffffec;
+    /* ターゲットの薄い黄色 */
+    padding: 15px 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 20px !important;
+}
+
+/* アイコン、ラベル、必須バッジの行 */
+.label-with-badge {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* 両端に配置 */
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.icon-label-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* アイコンとラベルの隙間 */
+}
+
+.icon-label-group .icon {
+    color: #a0a0a0;
+    /* アイコンの色をグレーに */
+    font-size: 1.25rem;
+}
+
+.icon-label-group label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    /* '氏名（漢字）'など */
+    color: #333;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+/* 必須バッジ */
+.required-badge {
+    background-color: #ff4d4d;
+    /* ターゲットの赤色 */
+    color: white;
+    font-size: 0.8rem;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+/* ==================== 3. 住所セクション ==================== */
+
+.address-group .label-with-guide {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.address-group .label-with-guide label {
+    font-weight: bold;
+    font-size: 1rem;
+    white-space: nowrap;
+    margin-bottom: 0;
+}
+
+/* 住所セクションのガイドテキスト（※郵便番号...） */
+.address-group .guide-text {
+    font-size: 0.8rem;
+    color: #777;
+    margin: 0;
+    padding: 0;
+}
+
+.zipcode-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.zipcode-input input.zip-part {
+    width: 300px;
+    flex: none;
+}
+
+.zipcode-input span {
+    font-size: 1.2rem;
+    color: #777;
+}
+
+.zip-search-btn {
+    background-color: #e9e9e9;
+    border: 1px solid #ccc;
+    padding: 0 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 44px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.zip-search-btn:hover {
+    background-color: #dcdcdc;
+}
+
+.address-field {
+    margin-top: 15px;
+}

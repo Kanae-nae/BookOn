@@ -1,0 +1,148 @@
+@charset "utf-8";
+
+/* ==================== テンプレートから継承したスタイル ==================== */
+/* body全体のスタイルをリセットし、ナビゲーション分のスペースを確保 */
+body {
+    margin: 0;
+    padding-bottom: 60px;
+    /* フッターの高さに合わせて小さく（約60px） */
+    font-family: sans-serif;
+    background-color: #ffffff;
+    color: #333; /* 文字色を読みやすく */
+}
+
+main {
+    padding: 0 15px;
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px 0 15px;
+    margin: 0;
+}
+/* ヘッダーのスタイル */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 15px;
+    /* 上下のパディングを増やして大きく */
+    border-bottom: 1px solid hsl(0, 6%, 83%);
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    /* ★★★ ここを追加/修正 ★★★ */
+    box-sizing: border-box; 
+}
+
+/* ログイン/会員登録ボタンのスタイル (大きく) */
+.login-btn {
+    display: flex;
+    align-items: center;
+    background-color: #005A9C;
+    color: white;
+    padding: 8px 15px 8px 12px;
+    /* パディングを増やして大きく */
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 14px;
+    /* テキストを大きく */
+    font-weight: bold;
+}
+
+.login-btn span:first-child, .logout-btn span:first-child{
+    display: inline-block;
+    width: 32px;
+    /* アイコン領域を大きく */
+    height: 32px;
+    /* アイコン領域を大きく */
+    margin-right: 8px;
+    color: white;
+    text-align: center;
+    line-height: 32px;
+    font-size: 20px;
+    /* アイコンを大きく */
+}
+
+.login-btn span:last-child, .logout-btn span:last-child{
+    line-height: 1.2;
+}
+
+/* --- ログアウトボタンのスタイル (大きく調整 & 「←]」アイコン再々適用) --- */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #D95360;
+    color: white;
+    padding: 8px 15px 8px 12px;
+    /* パディングを増やして大きく */
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 14px;
+    /* テキストを大きく */
+    font-weight: bold;
+}
+
+/* 下部固定ナビゲーションのスタイル (小さく) */
+nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    background-color: #f0e641;
+    padding: 8px 0;
+    /* 上下のパディングを減らして小さく */
+}
+
+/* ナビゲーションリンクの共通スタイル (小さく) */
+nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #707070;
+    font-size: 10px;
+    /* テキストを小さく */
+    font-weight: 500;
+    width: 70px;
+    text-align: center;
+}
+
+nav a div {
+    width: 28px;
+    /* アイコン領域を小さく */
+    height: 28px;
+    /* アイコン領域を小さく */
+    margin-bottom: 2px;
+    /* マージンを減らす */
+}
+
+/* navアイコンの色とサイズを画像に近づける */
+nav a svg {
+    color: #707070;
+    width: 20px;
+    height: 20px;
+}
+/* ヘッダーを上部固定したときに本文が隠れないように調整 */
+body {
+    padding-top: 80px; /* headerの高さに合わせて調整（70〜80pxが目安） */
+}
+
+/* スマホ画面用に微調整 */
+@media (max-width: 600px) {
+    body {
+        padding-top: 75px;
+    }
+}
