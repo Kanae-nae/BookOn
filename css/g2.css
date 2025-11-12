@@ -1,0 +1,360 @@
+/* ================================
+   g2.css (商品詳細ページ) 用のスタイル
+   ================================ */
+
+.product-detail-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 15px 80px 15px; 
+}
+
+/* 戻るボタン */
+.back-link {
+    margin-bottom: 10px;
+}
+
+.back-link a {
+    display: inline-block; /* ボタン化 */
+    align-items: center;
+    color: #333; /* 黒系に変更 */
+    text-decoration: none;
+    font-size: 1.0em;
+    font-weight: normal; /* 太字から変更 */
+    background-color: #f0f0f0; /* 背景色 */
+    padding: 8px 15px; /* 余白 */
+    border-radius: 20px; /* 角丸 */
+    border: 1px solid #ddd; /* 薄い枠線 */
+}
+.back-link a:hover {
+    background-color: #e0e0e0;
+}
+
+
+/* タイトルと評価 */
+.product-title {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+.product-author {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+.product-author a {
+    color: #007bff;
+    text-decoration: none;
+}
+.product-author a:hover {
+    text-decoration: underline;
+}
+.rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.rating .stars {
+    color: orange;
+    font-size: 1.2em;
+    margin-right: 5px;
+}
+.rating .score {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* 商品画像と購入セクションのレイアウト（PC/タブレット向け） */
+.product-content {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+/* 商品画像セクション */
+.product-image-section {
+    position: relative;
+    width: 40%;
+    max-width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product-image {
+    width: 100%; 
+    max-width: 300px; /* PCでの画像の最大サイズ */
+}
+.product-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ▼▼▼ 矢印(.nav-arrow)関連のスタイルを削除 ▼▼▼ */
+/* .nav-arrow, .left-arrow, .right-arrow, .nav-arrow img のCSSを削除 */
+/* ▲▲▲ 変更点 ▲▲▲ */
+
+
+/* 購入セクション */
+.purchase-section {
+    width: 60%;
+}
+
+/* 価格表示と数量セレクタ */
+.price-quantity-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.price-display {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.price-value {
+    font-size: 1.5em;
+    color: #cc0000;
+    margin-right: 5px;
+}
+.price-display .currency {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #cc0000;
+}
+.price-display .tax {
+    color: #333;
+    font-weight: normal;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+.quantity-selector {
+    display: flex;
+    align-items: center;
+}
+.quantity-selector label {
+    display: inline;
+    margin-right: 5px;
+}
+.quantity-selector select {
+    padding: 5px 10px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* オプション選択 */
+.option-selection p {
+    margin-bottom: 10px;
+}
+.option-selection-box { 
+    margin-bottom: 20px;
+}
+.radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #ccc; /* 灰色の枠線 */
+    border-radius: 5px; /* 角丸 */
+    padding: 12px; /* 内側余白 */
+    margin-bottom: 10px; /* オプション間の余白 */
+}
+.option-item:has(input[type="radio"]:checked) {
+    border: 2px solid #F57C00; /* 濃いオレンジ */
+    border-radius: 5px;
+    padding: 11px; /* 枠線が太くなる分(1px)を内側余白から引く */
+}
+.radio-option input[type="radio"] {
+    margin-right: 10px;
+}
+.radio-option input[type="radio"]:checked {
+    accent-color: #F57C00; /* 濃いオレンジ */
+}
+
+/* (○在庫あり) を左側に持ってくるためのスタイル */
+.option-label-group {
+    flex-grow: 1; /* このグループが横幅を埋める */
+    display: flex;
+    align-items: center;
+}
+.stock-status {
+    font-size: 0.9em;
+    color: green;
+    margin-left: 5px; /* ラベルとの隙間を調整 */
+    font-weight: bold;
+}
+
+.radio-option .option-price {
+    margin-left: auto; /* 価格を右端に寄せる */
+    padding-left: 10px; /* 価格と左側の要素との間に隙間を確保 */
+}
+
+.radio-option input[disabled] + .option-label-group .option-label,
+.radio-option input[disabled] + .option-label-group .stock-status,
+.radio-option input[disabled] ~ .option-price {
+    color: #aaa;
+}
+
+
+/* アクションボタン */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.add-to-cart-btn {
+    background-color: #6A5ACD;
+    color: white;
+    border: none;
+    padding: 10px 0; /* 12pxから変更 */
+    border-radius: 25px;
+    font-size: 1.0em; /* 1.1emから変更 */
+    font-weight: bold;
+    cursor: pointer;
+}
+.add-to-favorite-btn {
+    background-color: #fff;
+    color: #6A5ACD;
+    border: 1px solid #6A5ACD;
+    padding: 10px 0; /* 12pxから変更 */
+    border-radius: 25px;
+    font-size: 1.0em; /* 1.1emから変更 */
+    cursor: pointer;
+    font-weight: bold; /* 太字を追加 */
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 30px 0;
+}
+
+/* セクション見出し (商品情報, 商品説明) */
+.product-info-section h2,
+.product-description-section h2 {
+    background-color: #f0f0f0;
+    padding: 8px 12px;
+    font-size: 1.1em;
+    margin: 0 0 15px 0;
+    border-radius: 3px;
+}
+
+/* 商品情報テーブルのスタイル */
+.product-info-table {
+    width: 100%;
+    border-collapse: collapse; /* 枠線をきれいにする */
+    border-top: 1px solid #ddd;
+    font-size: 0.9em; /* 文字を少し小さく */
+}
+.product-info-table th,
+.product-info-table td {
+    padding: 12px 8px; /* 余白を調整 */
+    text-align: left;
+    border-bottom: 1px solid #eee; /* 行間の薄い線 */
+}
+.product-info-table th {
+    background-color: #f7f7f0; /* ヘッダーの背景色 */
+    font-weight: normal; /* スクリーンショットに合わせ太字解除 */
+    width: 30%; /* ヘッダーの幅を固定 */
+}
+
+/* 商品説明欄のスタイル */
+.product-description-section p {
+    font-size: 0.9em;
+    line-height: 1.7; /* 行間を読みやすく */
+    padding: 0 5px; /* 左右に少し余白 */
+}
+
+
+/* フッターメニュー (共通) */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #FFC107;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+.bottom-nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.bottom-nav li {
+    flex-grow: 1;
+    text-align: center;
+}
+.bottom-nav a {
+    display: block;
+    padding: 8px 0; 
+    text-decoration: none;
+    color: #333;
+    font-size: 0.8em;
+}
+.bottom-nav .material-icons {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 2px;
+}
+
+
+/* スマートフォン対応 (768px以下) */
+@media (max-width: 768px) {
+
+    /* タイトル周りの調整 */
+    .product-title {
+        font-size: 1.3em; /* 1.5emから縮小 */
+        line-height: 1.4; /* 行間を調整 */
+        margin-bottom: 8px;
+    }
+    .product-author {
+        font-size: 0.9em;
+        margin-bottom: 10px;
+    }
+    .rating {
+        font-size: 0.9em; /* 全体のサイズを少し縮小 */
+        margin-bottom: 15px;
+    }
+
+    .product-content {
+        flex-direction: column; /* 縦に並べる */
+    }
+
+    .product-image-section, .purchase-section {
+        width: 100%;
+        max-width: none;
+        margin-bottom: 10px; /* 隙間を調整 */
+    }
+
+    .product-image-section {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .product-image {
+        /* 画像を小さくする */
+        width: 55%; /* 画面幅の55% */
+        max-width: 200px; /* 最大でも200px */
+    }
+
+    /* .nav-arrow (display: none) の指定を削除 (HTML自体が無いため) */
+
+    /* 価格の改行を防止 */
+    .price-display {
+        white-space: nowrap; /* (税込)が改行されるのを防ぐ */
+    }
+    .price-value {
+        font-size: 1.25em; /* 1.3emから更に少し縮小 */
+    }
+    .price-display .currency {
+        font-size: 1.25em; /* 1.3emから更に少し縮小 */
+    }
+    .price-display .tax {
+        font-size: 0.8em; 
+    }
+}
