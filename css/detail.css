@@ -1,0 +1,189 @@
+@charset "utf-8";
+
+/* g5の一部コピペ */
+
+/* ==================== 1. 基本スタイル ==================== */
+
+/* メインコンテンツエリア */
+main {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+/* ページタイトル (h1) */
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    padding: 0 0 25px;
+    margin: 0;
+    color: #333;
+}
+
+/* フォーム全体のコンテナ (中央寄せ) */
+.registration-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* 各セクションのスタイル（白背景） */
+.form-section {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 25px 30px;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .02);
+    margin-bottom: 20px;
+}
+
+/* ガイドテキスト（※レビュー投稿時など） */
+.guide-text {
+    font-size: 11px;
+    color: #888;
+    margin: 0 0 10px 0;
+    padding: 0;
+    line-height: 1.4;
+}
+
+/* ボタンエリア */
+.button-area {
+    padding: 15px 0 0;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* 以下は追加 */
+
+/* フローの画像の調整 */
+.flow {
+    display: block;
+    width: 70%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 0 25px;
+    margin: 0;
+    color: #333;
+}
+
+/* ラジオボタン */
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    margin: 12px 0;
+}
+
+/* 中央揃え、右揃え、色変更等 */
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.red {
+    color: #f00;
+    font-weight: bold;
+}
+
+/* ラジオカスタム */
+input[type="radio"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #bcbcbc;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+}
+
+input[type="radio"]:checked {
+    border-color: #3b4ef8;
+}
+
+input[type="radio"]:checked::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: #3b4ef8;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 決定ボタン */
+.order-btn {
+    margin-top: 32px;
+    width: 260px;
+    padding: 14px;
+    font-size: 16px;
+    color: #fff;
+    background: #3b4ef8;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(59, 78, 248, 0.3);
+    display: block;
+    margin: 32px auto;
+}
+
+/* ホバー */
+.order-btn:hover {
+    opacity: 0.9;
+}
+
+/* 戻るボタン */
+.back-btn {
+    margin-top: 32px;
+    width: 100px;
+    padding: 14px;
+    font-size: 16px;
+    color: #000;
+    background: #fff;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(59, 78, 248, 0.3);
+}
+
+/* ホバー */
+.back-btn:hover {
+    opacity: 0.9;
+}
+
+/* カートボタン */
+.cart-btn {
+    margin-top: 32px;
+    width: 260px;
+    padding: 14px;
+    font-size: 16px;
+    color: #000;
+    background: #fff;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(59, 78, 248, 0.3);
+    display: block;
+    margin: 32px auto;
+}
+
+/* ホバー */
+.cart-btn:hover {
+    opacity: 0.9;
+}
