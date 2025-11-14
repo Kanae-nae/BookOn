@@ -1,13 +1,14 @@
 <?php require 'common/header_detail.php'; ?>
 <!-- 決済情報画面(G13) -->
 <main>
-    <button id="toSame" class="back-btn">＜　戻る</button>
+    <button id="toSame" class="btn back-btn">＜　戻る</button>
     <br>
 
     <div class="center">
         <h1>決済情報</h1>
         <img src="image/flow2.png" alt="購入フロー" class="flow">
 
+        <!-- 決済情報の選択 -->
         <form action="g14_check.php" method="post">
             <div class="payment-options">
                 <label class="payment-option">
@@ -23,7 +24,7 @@
                     PayPay
                 </label>
             </div>
-            <input type="submit" value="注文確認へ" class="order-btn">
+            <input type="submit" value="注文確認へ" class="btn order-btn">
         </form>
     </div>
 </main>
