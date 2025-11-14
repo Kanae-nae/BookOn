@@ -1,102 +1,120 @@
 @charset "utf-8";
 
-/*====================2. 会員情報セクション (黄色いエリア)====================*/
-
-/* 黄色い背景のコンテナ */
-.form-group.required-field {
-    background-color: #ffffec;
-    /* ターゲットの薄い黄色 */
-    padding: 15px 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    margin-bottom: 20px !important;
+/* ---------- 全体 ---------- */
+body {
+    background-color: #fff;
+    font-family: "Noto Sans JP", sans-serif;
 }
 
-/* アイコン、ラベル、必須バッジの行 */
-.label-with-badge {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* 両端に配置 */
-    width: 100%;
-    margin-bottom: 15px;
+/* コンテナ */
+.form-container {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    max-width: 700px;
+    padding: 16px;
+    margin: 0 auto;
 }
 
-.icon-label-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    /* アイコンとラベルの隙間 */
+/* ---------- レスポンシブ対応 ---------- */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 12px;
+    }
+
+    input,
+    select {
+        font-size: 13px;
+    }
 }
 
-.icon-label-group .icon {
-    color: #a0a0a0;
-    /* アイコンの色をグレーに */
-    font-size: 1.25rem;
-}
-
-.icon-label-group label {
+/* ---------- 見出し ---------- */
+h1 {
+    font-size: 24px;
     font-weight: bold;
-    font-size: 1.1rem;
-    /* '氏名（漢字）'など */
-    color: #333;
-    margin-bottom: 0;
-    padding: 0;
-}
-
-/* 必須バッジ */
-.required-badge {
-    background-color: #ff4d4d;
-    /* ターゲットの赤色 */
-    color: white;
-    font-size: 0.8rem;
-    padding: 3px 10px;
-    border-radius: 3px;
-    font-weight: bold;
-}
-
-/* ==================== 3. 住所セクション ==================== */
-
-.address-group .label-with-guide {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.address-group .label-with-guide label {
-    font-weight: bold;
-    font-size: 1rem;
-    white-space: nowrap;
-    margin-bottom: 0;
-}
-
-/* 住所セクションのガイドテキスト（※郵便番号...） */
-.address-group .guide-text {
-    font-size: 0.8rem;
-    color: #777;
+    text-align: center;
+    padding: 0 0 25px;
     margin: 0;
-    padding: 0;
+    color: #333;
 }
 
-.zipcode-input {
+.flow {
+    display: block;
+    width: 70%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.back-btn {
+    margin-top: 50px;
+    width: 100px;
+    padding: 14px;
+    font-size: 16px;
+    color: #000;
+    background: #fff;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(59, 78, 248, 0.3);
+}
+
+/* ---------- ラベル・必須マーク ---------- */
+.label-area {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-top: 5px;
+    background-color: #fff9c4; /* 黄色の付箋風 */
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 12px;
 }
 
-.zipcode-input input.zip-part {
+.label-area .required {
+    background-color: #ff5252;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* ---------- 入力欄 ---------- */
+
+input[type="text"], select {
     width: 300px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 14px;
+    box-shadow: none;
+    margin-bottom: 12px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #4a90e2;
+}
+
+/* ---------- 郵便番号欄 ---------- */
+.postcode {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.postcode input[type="text"] {
+    width: 150px;
     flex: none;
 }
 
-.zipcode-input span {
+.postcode span {
     font-size: 1.2rem;
     color: #777;
 }
 
-.zip-search-btn {
+.postcode button {
     background-color: #e9e9e9;
     border: 1px solid #ccc;
     padding: 0 15px;
@@ -106,12 +124,32 @@
     font-size: 0.9rem;
     font-weight: bold;
     color: #333;
+    margin-bottom: 10px;
 }
 
-.zip-search-btn:hover {
+.postcode button:hover {
     background-color: #dcdcdc;
 }
 
-.address-field {
-    margin-top: 15px;
+.postcode-wrapper #error {
+    margin-left: 8px;
+    font-size: 13px;
+    color: red;
+}
+
+/* タブレット用 (481px〜768px) */
+@media screen and (max-width: 768px) {
+    .flow {
+        width: 95%;
+        max-width: 500px;
+    }
+}
+
+/* スマホ用 (〜480px) */
+@media screen and (max-width: 480px) {
+    .flow {
+        width: 100%;
+        max-width: 300px;
+        margin-top: 0;
+    }
 }

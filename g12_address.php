@@ -1,74 +1,73 @@
 <?php require 'common/header_detail.php'; ?>
+<link rel="stylesheet" href="css/detail_address.css">
 <!-- 配送情報画面(G12) -->
 <?php require 'common/prefectures.php'; ?>
-<link rel="stylesheet" href="css/detail_address.css">
+
 <main>
     <!-- 購入処理でwindow.history.back();(1ページ戻る処理)を行うとおかしくなるため、別の処理で実装 -->
-    <button id="toSame" class="back-btn">＜　戻る</button>
+    <button id="toSame" class="btn back-btn">＜　戻る</button>
     <br>
 
-    <h1>配送情報</h1>
+    <h1 class="title">配送情報</h1>
 
     <img src="image/flow1.png" alt="購入フロー" class="flow">
 
     <form action="g12_address_output.php" method="post">
-        <div class="form-group address-group required-field">
-            <div class="label-with-badge">
-                <div class="icon-label-group">
-                    <label>住所</label>
-                </div>
+        <div class="form-container">
+            <div class="label-area">
+                <label>住所</label>
+                <span class="required">必須</span>
             </div>
-            <div class="label-with-guide">
+
+            <!-- 郵便番号 -->
+            <div>
                 <label>郵便番号</label>
-                <p class="guide-text">※郵便番号をもとに自動で入力します</p>
-                <p class="guide-text">ハイフン「-」なしで入力</p>
+                <p class="guide-text">※郵便番号をもとに自動で入力します ハイフン「-」なしで入力</p>
             </div>
-            <div class="input-inline zipcode-input">
-                <input type="text" name="zip_code" id="zipcode" value="<?= $_SESSION['user']['zip_code']?>" class="input zip-part"
-                maxlength="7" placeholder="1000001" required>
-                <button type="button" id="search" class="zip-search-btn">検索</button>
-                <p id="error" style="color: red;"></p>
-            </div>
-
-            <div class="address-field">
-                <label for="prefecture">都道府県</label>
-                <div class="select">
-                    <select id="prefecture" name="prefecture">
-                        <!-- デフォルトの値を設定する関係でややこしい設定になってます！ごめん！！ -->
-                        <?php
-                        $selected_value = $_SESSION['user']['prefecture'];
-                        foreach ($PREFECTURES as $key => $value):
-                        ?>
-                            <option value="<?= $value ?>" <?= $selected_value == $value ? "selected" : "" ?>>
-                                <?= $value ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+            <div class="postcode">
+                <input type="text" name="zip_code" maxlength="7" value="<?= $_SESSION['user']['zip_code']?>"
+                placeholder="1000001" required>
+                <button>検索</button>
+                <p id="error"></p>
             </div>
 
-            <div class="address-field">
-                <label for="city">市区町村</label>
-                <input type="text" id="city" name="city" placeholder="千代田区" value="<?= $_SESSION['user']['city']?>" class="input" required>
+            <!-- 都道府県 -->
+            <label for="prefecture">都道府県</label>
+            <div class="select">
+                <select id="prefecture" name="prefecture">
+                    <!-- デフォルトの値設定 -->
+                    <?php
+                    $selected_value = $_SESSION['user']['prefecture'];
+                    foreach ($PREFECTURES as $key => $value):
+                    ?>
+                    <option value="<?= $value ?>" <?= $selected_value == $value ? "selected" : "" ?>>
+                        <?= $value ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
-            <div class="address-field">
-                <label for="town">町名</label>
-                <input type="text" id="town" name="town" placeholder="千代田" value="<?= $_SESSION['user']['town']?>" class="input" required>
-            </div>
+            <!-- 市区町村 -->
+            <label for="city">市区町村</label><br>
+            <input type="text" name="city" placeholder="千代田区" value="<?= $_SESSION['user']['city']?>" required>
+            <br>
 
-            <div class="address-field">
-                <label for="street">番地</label>
-                <input type="text" id="street" name="street_number" placeholder="1-1" value="<?= $_SESSION['user']['street_number']?>"
-                class="input" required>
-            </div>
+            <!-- 町名 -->
+            <label for="town">町名</label><br>
+            <input type="text" id="town" name="town" placeholder="千代田" value="<?= $_SESSION['user']['town']?>" d>
+            <br>
 
-            <div class="address-field">
-                <label for="mansion" class="guide-text">建物名など</label>
-                <input type="text" id="mansion" name="building_name" value="<?= $_SESSION['user']['building_name']?>" class="input">
-            </div>
+            <!-- 番地 -->
+            <label for="street">番地</label><br>
+            <input type="text" id="street" name="street_number" placeholder="1-1"
+            value="<?= $_SESSION['user']['street_number']?>" required>
+            <br>
+
+            <!-- 建物名 -->
+            <label for="mansion">建物名など</label><br>
+            <input type="text" id="mansion" name="building_name" alue="<?= $_SESSION['user']['building_name']?>">
         </div>
-        <input type="submit" class="order-btn" value="決済情報へ">
+        <input type="submit" class="btn order-btn" value="決済情報へ">
     </form>
 </main>
 

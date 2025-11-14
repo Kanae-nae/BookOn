@@ -1,13 +1,10 @@
 @charset "utf-8";
 
-/* g5の一部コピペ */
-
-/* ==================== 1. 基本スタイル ==================== */
-
-/* メインコンテンツエリア */
+/* メインエリア */
 main {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 15px;
 }
 
 /* ページタイトル (h1) */
@@ -20,14 +17,16 @@ h1 {
     color: #333;
 }
 
-/* フォーム全体のコンテナ (中央寄せ) */
-.registration-container {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 0 15px;
+/* サブタイトル (h2) */
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 0 25px;
+    margin: 0;
+    color: #333;
 }
 
-/* 各セクションのスタイル（白背景） */
+/* フォームのスタイル */
 .form-section {
     background-color: #fff;
     border-radius: 6px;
@@ -36,7 +35,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* ガイドテキスト（※レビュー投稿時など） */
+/* サブテキスト */
 .guide-text {
     font-size: 11px;
     color: #888;
@@ -45,31 +44,30 @@ h1 {
     line-height: 1.4;
 }
 
-/* ボタンエリア */
-.button-area {
-    padding: 15px 0 0;
-    max-width: 400px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-/* 以下は追加 */
-
-/* フローの画像の調整 */
+/* 画像の調整 */
 .flow {
+    width: 90%;
+    max-width: 600px;
+    height: auto;
     display: block;
-    width: 70%;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 24px auto;
 }
 
-h2 {
-    font-size: 20px;
-    font-weight: bold;
-    padding: 0 0 25px;
-    margin: 0;
-    color: #333;
+.item {
+    position: relative;
+    padding: 16px;
+}
+
+.delete {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 5%;
+    height: auto;
+}
+
+.delete:hover {
+    opacity: 0.7;
 }
 
 /* ラジオボタン */
@@ -81,23 +79,7 @@ h2 {
     margin: 12px 0;
 }
 
-/* 中央揃え、右揃え、色変更等 */
-.center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.right {
-    text-align: right;
-}
-
-.red {
-    color: #f00;
-    font-weight: bold;
-}
-
-/* ラジオカスタム */
+/* ラジオボタンのカスタム */
 input[type="radio"] {
     appearance: none;
     width: 16px;
@@ -124,66 +106,87 @@ input[type="radio"]:checked::after {
     transform: translate(-50%, -50%);
 }
 
-/* 決定ボタン */
-.order-btn {
+/* ==== 共通ボタンスタイル ==== */
+
+.btn {
     margin-top: 32px;
-    width: 260px;
     padding: 14px;
     font-size: 16px;
-    color: #fff;
-    background: #3b4ef8;
     border-radius: 30px;
     border: none;
     cursor: pointer;
     font-weight: bold;
     box-shadow: 0 4px 12px rgba(59, 78, 248, 0.3);
-    display: block;
-    margin: 32px auto;
+    opacity: 1;
+    transition: opacity 0.2s ease;
 }
 
-/* ホバー */
-.order-btn:hover {
+.btn:hover {
     opacity: 0.9;
+}
+
+/* ==== ボタンのバリエーション ==== */
+
+/* 決定ボタン */
+.order-btn {
+    width: 260px;
+    color: #fff;
+    background: #3b4ef8;
+    display: block;
+    margin: 32px auto;
 }
 
 /* 戻るボタン */
 .back-btn {
-    margin-top: 32px;
     width: 100px;
-    padding: 14px;
-    font-size: 16px;
     color: #000;
     background: #fff;
-    border-radius: 30px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 4px 12px rgba(59, 78, 248, 0.3);
-}
-
-/* ホバー */
-.back-btn:hover {
-    opacity: 0.9;
 }
 
 /* カートボタン */
 .cart-btn {
-    margin-top: 32px;
     width: 260px;
-    padding: 14px;
-    font-size: 16px;
     color: #000;
     background: #fff;
-    border-radius: 30px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 4px 12px rgba(59, 78, 248, 0.3);
     display: block;
     margin: 32px auto;
 }
 
-/* ホバー */
-.cart-btn:hover {
-    opacity: 0.9;
+/* 中央揃え、右揃え、色変更等 */
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.red {
+    color: #cc0000;
+    font-weight: bold;
+}
+
+/* タブレット用 (481px〜768px) */
+@media screen and (max-width: 768px) {
+    .flow {
+        width: 95%;
+        max-width: 500px;
+    }
+
+    .delete {
+        width: 6%;
+    }
+}
+
+/* スマホ用 (〜480px) */
+@media screen and (max-width: 480px) {
+    .flow {
+        width: 95%;
+    }
+
+    .delete {
+        width: 8%;
+    }
 }

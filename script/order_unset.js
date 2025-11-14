@@ -2,7 +2,7 @@
 
 document.getElementById('toSame').addEventListener('click', async function () {
     try {
-        // 必要なデータがあればここで組み立てる（例: セッション操作用フラグ）
+        // セッション操作用のフラグ
         const body = new URLSearchParams();
         body.append('action', 'order_unset');
 
