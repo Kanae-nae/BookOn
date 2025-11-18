@@ -1,0 +1,154 @@
+@charset "utf-8";
+
+/* ===============================
+   購入履歴セクション
+   =============================== */
+
+/* 見出し（購入日：新しい順など） */
+.purchase-header {
+  background-color: #f2f2f2;
+  padding: 8px 12px;
+  font-weight: bold;
+  font-size: 0.95em;
+  color: #555;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.purchase-header i {
+  margin-right: 6px;
+  color: #888;
+}
+
+/* 一覧全体 */
+.purchase-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 各購入カード */
+.purchase-card {
+  display: flex;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 書影 */
+.purchase-card .book-thumb img {
+  width: 70px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* 情報エリア */
+.purchase-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* タイトル・著者 */
+.book-title {
+  font-weight: bold;
+  font-size: 1em;
+  margin: 0;
+  color: #222;
+}
+
+.book-author {
+  font-size: 0.85em;
+  color: #666;
+  margin: 2px 0 6px;
+}
+
+/* 購入日・金額 */
+.purchase-date {
+  font-size: 0.85em;
+  color: #777;
+}
+
+.purchase-price {
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #333;
+  margin-top: 4px;
+}
+
+/* ボタンエリア */
+.purchase-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* 各ボタン */
+.btn-detail,
+.btn-review {
+  flex: 1;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.85em;
+  padding: 6px 0;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-detail {
+  background-color: #e6e6e6;
+  color: #333;
+}
+
+.btn-review {
+  background-color: #ffe44d;
+  color: #000;
+}
+
+.btn-detail:hover {
+  background-color: #d9d9d9;
+}
+
+.btn-review:hover {
+  background-color: #ffef7a;
+}
+
+/* 購入履歴なし */
+.no-purchase {
+  text-align: center;
+  color: #777;
+  font-size: 0.9em;
+  padding: 20px 0;
+}
+
+/* スマホ対応 */
+@media screen and (max-width: 480px) {
+  .purchase-card {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .purchase-card .book-thumb img {
+    width: 60px;
+    height: 90px;
+  }
+
+  .book-title {
+    font-size: 0.95em;
+  }
+
+  .book-author {
+    font-size: 0.8em;
+  }
+
+  .purchase-actions button {
+    font-size: 0.8em;
+  }
+}
