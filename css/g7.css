@@ -1,0 +1,211 @@
+/* g7.css */
+
+/* 基本リセットとフォント設定 */
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #f0f0f0; 
+    color: #333;
+}
+
+/* レビューコンテナ全体 */
+.review-container {
+    padding: 0 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f0f0f0; 
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* ヘッダー部分 (「戻る」ボタンと「レビュー登録」タイトル) */
+.review-header {
+    display: flex;
+    align-items: center;
+    padding: 0 0 10px 0;
+    margin-bottom: 20px;
+    justify-content: flex-start; 
+    position: relative; 
+}
+
+/* 戻るボタン */
+.back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px; 
+    background-color: #f8f8f8;
+    margin-right: 10px;
+    flex-shrink: 0;
+    z-index: 10; 
+}
+
+.back-arrow {
+    margin-right: 5px;
+    transform: scaleX(-1);
+    color: #333;
+}
+
+/* 画面タイトル - 中央寄せ */
+.review-header h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    white-space: nowrap;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%; 
+}
+
+/* 商品情報セクション */
+.review-item-info h2 {
+    font-size: 18px;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.item-details {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* 商品画像 */
+.item-cover {
+    width: 90px; 
+    height: auto;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+}
+
+.item-inputs {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    min-width: 0;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-group label {
+    font-size: 14px;
+    width: 60px; /* スコアと鑑賞日のラベル幅を揃えるため */
+    flex-shrink: 0;
+}
+
+.star-rating {
+    display: flex;
+    color: #ffc107;
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.star {
+    margin-right: -3px;
+}
+
+.star.empty {
+    color: #ccc;
+}
+
+.score-group select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    flex-shrink: 0;
+    width: 60px;
+}
+
+/* ★ここから鑑賞日部分のCSSを修正★ */
+.date-group-wrapper {
+    display: flex;
+    flex-direction: column; /* ラベルとプルダウンを縦に並べる */
+    align-items: flex-start; /* 左寄せ */
+    gap: 5px; /* ラベルとプルダウンの間隔 */
+}
+
+.date-group-wrapper .date-label {
+    font-size: 14px;
+    /* ラベルが親要素にぴったり合うように調整 */
+    width: auto; 
+    margin-right: 0;
+    flex-shrink: 0;
+}
+
+.date-selects {
+    display: flex;
+    gap: 10px; /* 年月日のプルダウン間の間隔 */
+    width: 100%; /* 親要素の幅を使う */
+}
+
+.date-selects select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    flex-grow: 1; /* スペースを均等に使う */
+    flex-shrink: 1;
+    min-width: 0;
+}
+/* ★ここまで修正★ */
+
+/* レビュー内容セクション */
+.review-content {
+    margin-bottom: 20px;
+}
+
+.review-content label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #ffffff; 
+}
+
+/* 登録ボタン - 元画像のように丸くする */
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #6a6aff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    /* ★修正: 元画像のように角を丸くする */
+    border-radius: 25px; 
+    cursor: pointer;
+    margin-bottom: 100px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #5555d3;
+}
