@@ -1,0 +1,117 @@
+@charset "utf-8";
+
+/* ===============================
+   レビュー表示セクション
+   =============================== */
+
+/* 見出し（投稿日：新しい順など） */
+.review-header {
+  background-color: #f2f2f2;
+  padding: 8px 12px;
+  font-weight: bold;
+  font-size: 0.95em;
+  color: #555;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.review-header i {
+  margin-right: 6px;
+  color: #888;
+}
+
+/* レビューリスト全体 */
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 各レビューカード */
+.review-card {
+  display: flex;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 書影画像 */
+.book-thumb img {
+  width: 70px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* 情報エリア */
+.review-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 書籍タイトル */
+.book-title {
+  font-weight: bold;
+  font-size: 1em;
+  margin: 0;
+  color: #222;
+}
+
+/* 評価（★） */
+.rating {
+  color: #fbc02d;
+  font-size: 0.9em;
+  margin: 3px 0;
+  letter-spacing: 1px;
+}
+
+/* レビュー本文 */
+.review-text {
+  font-size: 0.9em;
+  color: #333;
+  line-height: 1.4;
+  margin: 5px 0;
+}
+
+/* 投稿日 */
+.review-date {
+  font-size: 0.8em;
+  color: #777;
+  text-align: right;
+}
+
+/* レビューなしメッセージ */
+.no-review {
+  text-align: center;
+  color: #777;
+  font-size: 0.9em;
+  padding: 20px 0;
+}
+
+/* スマホ対応 */
+@media screen and (max-width: 480px) {
+  .review-card {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .book-thumb img {
+    width: 60px;
+    height: 90px;
+  }
+
+  .book-title {
+    font-size: 0.95em;
+  }
+
+  .review-text {
+    font-size: 0.85em;
+  }
+}

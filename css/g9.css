@@ -1,0 +1,282 @@
+@charset "utf-8";
+
+/* ===============================
+   全体設定
+   =============================== */
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  background-color: #fff;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  padding-top: 90px; /* ヘッダー分の余白調整 */
+}
+
+main {
+  padding-bottom: 90px; /* フッター分 */
+  box-sizing: border-box;
+}
+
+/* ===============================
+   プロフィールセクション
+   =============================== */
+.profile {
+  background-color: #fff;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* アイコン＋全体の左位置を揃えるためのコンテナ */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* アイコン＋名前ブロック */
+.profile-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* 左：アイコン */
+.profile-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+/* 右：ユーザー情報部分 */
+.profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 名前とボタン横並び */
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+/* 名前 */
+.profile-name {
+  font-size: 1.3em;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.02em; /* 字間を詰める */
+}
+
+/* 会員情報を変更ボタン（グレー固定） */
+.btn-profile-edit {
+  border: 1px solid #bbb;
+  background-color: #f2f2f2 !important;
+  color: #333;
+  font-size: 0.85em;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-profile-edit:hover {
+  background-color: #e5e5e5 !important;
+}
+
+/* レビュー数・購入履歴数 */
+.profile-stats {
+  display: flex;
+  justify-content: flex-start;
+  gap: 25px;
+  font-size: 0.9em;
+  color: #555;
+}
+.profile-stats span:first-child {
+  font-weight: bold;
+  font-size: 1em;
+  margin-right: 3px;
+}
+
+/* 自己紹介文（アイコンの真下） */
+.profile-comment {
+  margin: 6px 0 0 0;  /* ← 最重要修正点：左余白を消してアイコンの真下に配置 */
+  font-size: 0.9em;
+  color: #444;
+  line-height: 1.5;
+  text-align: left;
+  width: 100%;
+}
+
+
+/* ===============================
+   レビュー・購入履歴 切替ボタン
+   =============================== */
+.switch-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff7b5;
+  border-bottom: 1px solid #eee;
+  padding: 6px 0;
+  gap: 10px;
+}
+
+.switch-btn {
+  flex: 1;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+  background-color: #fff7b5;
+  font-size: 0.95em;
+  transition: background 0.2s;
+}
+
+.switch-btn i {
+  margin-right: 6px;
+  color: #333;
+}
+
+.switch-btn.active {
+  background-color: #ffe44d;
+  color: #000;
+}
+
+/* ===============================
+   コンテンツ領域
+   =============================== */
+.mypage-content {
+  background-color: #fff;
+  padding: 10px 14px;
+}
+
+/* ===============================
+   並び替えドロップダウン
+   =============================== */
+.sort-dropdown {
+  position: fixed;
+  bottom: 90px;
+  right: 15px;
+  z-index: 2000;
+  display: block !important; /* スマホで非表示にならないよう強制表示 */
+}
+
+/* 丸いボタン */
+.sort-button {
+  background-color: #005A9C;
+  border: none;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sort-button i {
+  font-size: 20px;
+  color: #fff;
+}
+
+.sort-button:hover {
+  background-color: #ffef7a;
+}
+
+/* ドロップダウンメニュー */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  min-width: 170px;
+  z-index: 999;
+  overflow: hidden;
+}
+.dropdown-content a {
+  display: block;
+  padding: 10px 12px;
+  color: #333;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: 0.2s;
+}
+.dropdown-content a:hover {
+  background-color: #f8f8f8;
+}
+.dropdown-content.show {
+  display: block;
+}
+
+/* ===============================
+   スマホ対応（幅480px以下）
+   =============================== */
+@media screen and (max-width: 480px) {
+  .profile {
+    padding: 10px 12px;
+  }
+
+  .profile-icon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .profile-name {
+    font-size: 1.15em;
+  }
+
+  .btn-profile-edit {
+    font-size: 0.8em;
+    padding: 5px 12px;
+  }
+
+  /* スマホでもアイコンの真下に来るように margin-left を絶対つけない */
+  .profile-comment {
+    margin-left: 0 !important;
+  }
+
+  .sort-dropdown {
+    bottom: 80px;
+    right: 12px;
+  }
+
+  .sort-button {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* --- アイコンと自己紹介文の位置調整（最重要） --- */
+.profile-top {
+    display: flex;
+    align-items: flex-start !important;
+    gap: 10px;
+}
+
+/* --- 自己紹介文：アイコンの真下 --- */
+.profile-comment {
+    margin: 10px 0 0 0 !important;
+    padding-left: 0 !important;
+    text-align: left;
+    font-size: 0.9em;
+    color: #444;
+    line-height: 1.5;
+}
+
+/* --- スマホ時も margin-left を絶対付けない --- */
+@media screen and (max-width: 480px) {
+    .profile-comment {
+        margin-left: 0 !important;
+    }
+}
