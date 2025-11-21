@@ -1,0 +1,287 @@
+/* css/g3.css (完成版) */
+
+/* --------------------------------
+ * 1. 基本設定
+ * -------------------------------- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    
+    /* ★重要: 
+     * 固定ヘッダーの高さ(60px)と
+     * 固定フッターの高さ(70px)分の「隙間」をbodyに作ります。
+     */
+    padding-top: 60px; 
+    padding-bottom: 70px;
+    background-color: #ffffff; /* ページの背景は白 */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* --------------------------------
+ * 2. ヘッダー (header.php が出力する想定)
+ * -------------------------------- */
+.page-header {
+    /* 画面上部に固定 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* 高さを指定 */
+    z-index: 100;
+    
+    /* デザイン */
+    background-color: #ffffff; /* 白いヘッダー */
+    border-bottom: 1px solid #e0e0e0; /* 薄い境界線 */
+    padding: 0 15px; /* 左右の余白 */
+    
+    /* 中身 (ロゴとボタン) を両端に配置 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ヘッダー内の青い "BOOK ON" ロゴ */
+.page-header .logo {
+    font-family: 'Arial Black', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #0056b3; /* 濃い青 (例) */
+    text-decoration: none;
+}
+
+/* ヘッダー内の「会員登録/ログイン」ボタン */
+.page-header .btn-register-login {
+    background-color: #007bff; /* 青いボタン */
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap; /* ボタン内の文字を改行させない */
+}
+
+/* --------------------------------
+ * 3. メインコンテンツ
+ * -------------------------------- */
+.search-page-main {
+    min-height: calc(100vh - 60px - 70px); 
+    width: 100%;
+    padding: 20px;
+    
+    /* ★変更: メインコンテンツ内をFlexboxで配置 */
+    display: flex;
+    flex-direction: column; /* 縦に並べる */
+    
+    /* 上部に検索バーとテキスト、中央にロゴとアイコン */
+    /* これらを配置するために、justify-content を変更し、
+     * ロゴとアイコンのグループにマージンを追加します
+     */
+    justify-content: flex-start; /* コンテンツ全体を上寄せ */
+    align-items: center; /* 水平方向は中央 */
+    
+    /* ヘッダーからの上部の余白を確保 */
+    padding-top: 40px; /* ここで調整。画像に合わせて40pxにしました */
+}
+
+/* ★追加: 検索バーとヘルパーテキストをまとめるための新しいラッパー */
+/* ... .search-top-section のスタイル ... */
+.search-top-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0; 
+}
+
+/* ★追加: フォーム自体が幅を持つように */
+.search-form {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* 中の検索コンテナを中央寄せ */
+}
+
+/* ... .search-container のスタイル ... */
+/* --------------------------------
+ * 4. 検索バー (大きく、中央に)
+ * -------------------------------- */
+.search-container {
+    display: flex;
+    width: 90%; /* 画面幅の90% */
+    max-width: 400px; /* PCでも広がりすぎないように */
+    margin-bottom: 15px;
+    
+    /* 理想のデザイン (丸みのあるグレーの背景) */
+    background-color: #f1f3f4; /* 少し薄いグレー */
+    border: 1px solid #f1f3f4;
+    border-radius: 24px; /* 丸みを持たせる */
+    
+    /* ★変更: 内側の余白を大きくして、バー自体を太くします */
+    padding: 12px 20px; 
+}
+/* 検索バー（.search-container）はそのまま */
+/* ヘルパーテキスト（.search-helper-text）はそのまま */
+
+
+/* ★変更: 中央のロゴとアイコン */
+.search-default-content {
+    text-align: center;
+    color: #d0d0d0;
+    /* ★変更: ここで上下の余白を調整することで、中央寄りに見せます */
+    margin-top: auto; /* 上部のスペースを自動で埋める */
+    margin-bottom: auto; /* 下部のスペースを自動で埋める */
+}
+.search-box {
+    flex-grow: 1; /* 残りの幅すべてを占める */
+    border: none;
+    background-color: transparent; /* 親の背景色(グレー)と同じ */
+    
+    /* ★変更: 文字サイズを大きくします */
+    font-size: 18px; 
+    
+    padding: 4px 0;
+    outline: none; /* クリック時の枠線を消す */
+}
+/* ★追加: ロゴ画像のスタイル (これは既にありますが、再掲) */
+.search-default-content .logo-image {
+    width: 250px; /* ロゴの幅を調整 */
+    height: auto;
+    margin-bottom: 25px;
+    /* opacity: 0.7; /* 透過度で薄さを調整（必要なら） */
+}
+
+/* ★追加: アイコン画像のスタイル */
+.search-default-content .icon-placeholder .book-icon-image {
+    width: 120px; /* アイコンの幅を調整 */
+    height: auto;
+    /* opacity: 0.7; /* 透過度で薄さを調整（必要なら） */
+}
+.search-helper-text {
+    color: #a0a0a0;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    
+    /* ★追加: ロゴ画像との間に余白をあけます */
+    margin-bottom: 40px; 
+}
+/* --------------------------------
+ * 8. 検索結果表示 (ここから追加)
+ * -------------------------------- */
+
+/* 検索結果件数 */
+.search-result-count {
+    width: 100%;
+    max-width: 600px; /* PCでの最大幅 */
+    padding: 15px 10px;
+    font-size: 16px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    /* search-top-section が中央寄せなので、テキストを左寄せに戻す */
+    text-align: left; 
+}
+
+/* 商品リスト全体 */
+.product-list {
+    width: 100%;
+    max-width: 600px; /* PCでの最大幅 */
+}
+
+/* 個々の商品アイテム (全体をリンクにする) */
+.product-item {
+    display: flex; /* 画像と情報を横並び */
+    width: 100%;
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee; /* 商品ごとの区切り線 */
+    text-decoration: none; /* リンクの下線を消す */
+    color: inherit; /* 文字色を親から継承 */
+}
+/* ホバー時に薄く色を付ける */
+.product-item:hover {
+    background-color: #f9f9f9; 
+}
+
+/* 商品画像エリア */
+.product-image {
+    width: 100px; /* 画像の幅を固定 */
+    flex-shrink: 0; /* 縮まないようにする */
+    margin-right: 15px;
+}
+
+.product-image img {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+}
+
+/* 商品情報エリア */
+.product-info {
+    flex-grow: 1; /* 残りの幅すべてを使う */
+    display: flex;
+    flex-direction: column; /* 中の要素を縦に積む */
+    min-height: 150px; /* 画像の高さと合わせるための最小の高さ (適宜調整) */
+}
+
+.product-info p, 
+.product-info h3 {
+    margin: 0; /* デフォルトのマージンをリセット */
+    padding: 0;
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff; /* リンク色 */
+    margin-bottom: 5px;
+}
+
+.product-author {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.product-rating {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.product-rating .stars {
+    color: #f9a825; /* 星の色 */
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+/* (Font Awesomeの星アイコン <i class="fas fa-star"></i> などが読み込まれている前提です) */
+
+.product-rating .rating-score {
+    color: #555;
+    margin-left: 5px;
+}
+
+.product-meta {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.product-meta strong {
+    color: #333;
+}
+
+.product-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d9534f; /* 価格の色 (赤系) */
+    
+    /* ★重要: 価格を一番下に押しやります */
+    margin-top: auto; 
+    /* 上の要素との間に隙間を確保 */
+    padding-top: 10px; 
+}
