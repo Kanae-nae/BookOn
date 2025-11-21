@@ -108,22 +108,6 @@ body {
     flex-shrink: 0;
 }
 
-.star-rating {
-    display: flex;
-    color: #ffc107;
-    font-size: 24px;
-    line-height: 1;
-    flex-shrink: 0;
-}
-
-.star {
-    margin-right: -3px;
-}
-
-.star.empty {
-    color: #ccc;
-}
-
 .score-group select {
     padding: 5px;
     border: 1px solid #ccc;
@@ -208,4 +192,45 @@ textarea {
 
 .submit-btn:hover {
     background-color: #5555d3;
+}
+
+/* ============================================
+   星評価（スターレーティング）の新しいCSS
+   ============================================ */
+
+/* 星全体の枠組み */
+.star-rating {
+    position: relative;
+    display: inline-block;
+    width: 120px; /* 星の幅に合わせて調整 */
+    height: 24px;
+    font-size: 24px; /* 星の大きさ */
+    line-height: 1;
+    vertical-align: middle; /* 文字との高さを合わせる */
+    color: #ccc; /* 背景の星の色（グレー） */
+}
+
+/* 背景のグレーの星を描画 */
+.star-rating::before {
+    content: '★★★★★';
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* 黄色の星（被せる方） */
+.filled-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden; /* 幅からはみ出た部分を隠す */
+    white-space: nowrap; /* 折り返し禁止 */
+    width: 0%; /* JavaScriptでここが変わる */
+    color: #ffc107; /* 黄色（ゴールド） */
+    pointer-events: none; /* クリックなどは下の要素に通す */
+}
+
+/* 黄色の星の中身を描画 */
+.filled-stars::before {
+    content: '★★★★★';
 }
