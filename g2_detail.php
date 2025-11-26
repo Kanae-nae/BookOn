@@ -1,71 +1,100 @@
 <?php require 'common/header.php'; ?>
-<!-- 商品詳細画面(G2) -->
 <?php require 'common/db-connect.php'; ?>
 
 <link rel="stylesheet" href="css/g2.css">
 
 <?php
 try {
-    // 商品の取得
+    // DB接続 (common/db-connect.phpの設定を使用)
+    // もしdb-connect.php内で $pdo を作っていない場合は、以下の行を生かしてください
     $pdo = new PDO($connect, USER, PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = 'SELECT products.*, series.*, author.*, genre.* FROM products
-    JOIN series ON products.series_id = series.series_id
-    JOIN author ON author.author_id = series.author_id
-    JOIN genre ON genre.genre_id = series.genre_id
-    WHERE products.product_id = :product_id';
+    // ★修正★: 複数のテーブルを JOIN して情報をまとめて取得します
+    // products(商品) -> series(作品情報) -> genre(ジャンル) -> author(作者)
+    $sql = 'SELECT 
+                products.*, 
+                series.series_name, 
+                series.overview, 
+                genre.genre_name, 
+                author.author_name 
+            FROM products
+            JOIN series ON products.series_id = series.series_id
+            LEFT JOIN genre ON series.genre_id = genre.genre_id
+            LEFT JOIN author ON series.author_id = author.author_id
+            WHERE products.product_id = :product_id';
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':product_id', $_GET['id'], PDO::PARAM_INT);
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if(isset($row)) {
-        // 商品名の作成
-        $product_name = $row['series_name'] . " " . strval($row['volume_number']) . "巻";
+    if($row) {
+        // --- データ整形エリア ---
 
-        // 発売日の作成
-        $releases = explode("-",$row['release_date']);
-        $release_date = $releases[0]."年".$releases[1]."月".$releases[2]."日";
+        // 商品名の作成 (シリーズ名 + 半角スペース + 巻数)
+        $product_name = $row['series_name'] . " " . $row['volume_number'];
+
+        // 発売日の整形 (YYYY-MM-DD -> YYYY年MM月DD日)
+        $release_date_str = $row['release_date'] ?? '';
+        if (!empty($release_date_str)) {
+            $releases = explode("-", $release_date_str);
+            if (count($releases) === 3) {
+                $release_date = $releases[0]."年".$releases[1]."月".$releases[2]."日";
+            } else {
+                $release_date = $release_date_str;
+            }
+        } else {
+            $release_date = '不明';
+        }
+
+        // 変数セット (データがない場合の対策も含む)
+        $author_name = $row['author_name'] ?? '作者不明';
+        $genre_name  = $row['genre_name'] ?? '-';
+        $overview    = $row['overview'] ?? '商品説明がありません。';
+        
+        // productsテーブルにある情報
+        $publisher_name = $row['publisher'] ?? '-';
+        $label_name     = $row['label'] ?? '-';
+        $pages          = $row['pages'] ?? '-';
+        $price          = $row['price'];
+        $stocks         = $row['stocks'];
+        $img_url        = $row['product_img_url'];
 ?>
 
 <main>
     <div class="product-detail-container">
 
-        <!-- 戻るボタンの表示 -->
         <div class="back-link">
             <a href="#" onclick="history.back(); return false;">
                 <span>＜ 戻る</span>
             </a>
         </div>
 
-        <!-- タイトル、著者名等の表示 -->
-        <h1 class="product-title"><?= $product_name ?></h1>
-        <div class="product-author"><a href="#"><?= $row['author_name'] ?></a></div>
+        <h1 class="product-title"><?= htmlspecialchars($product_name) ?></h1>
+        <div class="product-author"><a href="#"><?= htmlspecialchars($author_name) ?></a></div>
+        
         <div class="rating">
             <span class="stars">★★★★☆</span>
             <span class="score">4.0</span>
             <span class="review-count">(5件)</span>
         </div>
 
-        <!-- 画像の表示 -->
         <div class="product-content">
             <div class="product-image-section">
                 <div class="product-image">
-                    <img src="<?= $row['product_img_url'] ?>" alt="<?= $product_name ?>">
+                    <img src="<?= htmlspecialchars($img_url) ?>" alt="<?= htmlspecialchars($product_name) ?>">
                 </div>
             </div>
 
             <div class="purchase-section">
                 <div class="price-quantity-container">
                     <p class="price-display">
-                        <span class="currency"><?= number_format($row['price']) ?>円</span> 
+                        <span class="currency"><?= number_format($price) ?>円</span> 
                         <span class="tax">(税込)</span>
                     </p>
-                    <!-- カートの追加処理 -->
+                    
                     <form action="cart/cart_insert.php" method="post" onsubmit="prepareCart(this);">
-                    <!-- 数量の入力 -->
                     <div class="quantity-selector">
                         <label for="quantity">数量</label>
                         <select name="count" id="quantity">
@@ -78,7 +107,6 @@ try {
                     </div>
                 </div>
 
-                    <!-- 紙書籍か電子書籍かの選択 -->
                     <div class="option-selection">
                         <p>オプションを選択してください。</p>
 
@@ -86,17 +114,17 @@ try {
                             <label class="option-item radio-option">
                                 <input type="radio" name="format" value="digital" checked>
                                 <span class="option-label">電子書籍 (今すぐDL可)</span>
-                                <span class="option-price"><?= number_format($row['price']) ?>円</span>
+                                <span class="option-price"><?= number_format($price) ?>円</span>
                             </label>
 
                             <label class="option-item radio-option">
-                                <input type="radio" name="format" value="book" <?= ($row['stocks'] <= 0) ? 'disabled' : '' ?>>
+                                <input type="radio" name="format" value="book" <?= ($stocks <= 0) ? 'disabled' : '' ?>>
 
                                 <span class="option-label-group">
                                     <span class="option-label">紙書籍</span>
                                     <span class="stock-status">
                                         <?php
-                                            if($row['stocks'] > 0){
+                                            if($stocks > 0){
                                                 echo "(○在庫あり)";
                                             } else {
                                                 echo "(×在庫なし)";
@@ -105,26 +133,21 @@ try {
                                     </span>
                                 </span>
 
-                                <span class="option-price"><?= number_format($row['price']) ?>円</span>
+                                <span class="option-price"><?= number_format($price) ?>円</span>
                             </label>
                         </div>
                     </div>
 
-                <!-- 残りの情報を渡す -->
-                <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
-                <input type="hidden" name="product_img_url" value="<?= $row['product_img_url'] ?>">
-                <input type="hidden" name="product_name" value="<?= $product_name ?>">
-                <input type="hidden" name="author_name" value="<?= $row['author_name'] ?>">
-                <input type="hidden" name="price" value="<?= $row['price'] ?>">
+                <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
+                <input type="hidden" name="product_img_url" value="<?= htmlspecialchars($img_url) ?>">
+                <input type="hidden" name="product_name" value="<?= htmlspecialchars($product_name) ?>">
+                <input type="hidden" name="author_name" value="<?= htmlspecialchars($author_name) ?>">
+                <input type="hidden" name="price" value="<?= htmlspecialchars($price) ?>">
 
-                <!-- ログイン時のみカートの追加処理＆お気に入りの登録処理を行う -->
                 <?php if(isset($_SESSION['user'])){ ?>
-                    <!-- カートに入れる処理 -->
                     <div class="action-buttons">
                         <button type="submit" class="add-to-cart-btn">カートに入れる</button>
                     </div>
-
-                <!-- ログアウト時はボタンを押せなくする -->
                 <?php } else { ?>
                     <div class="action-buttons">
                         <button class="add-to-cart-btn" disabled>カートに入れる</button>
@@ -132,20 +155,17 @@ try {
                 <?php } ?>
                 </form>
 
-                <!-- お気に入りの追加処理 -->
                 <?php if(isset($_SESSION['user'])){ ?>
                     <form action="" method="post" onsubmit="prepareFavorite(this);">
-                        <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
+                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
                         <div class="action-buttons">
                             <button type="submit" class="add-to-favorite-btn">お気に入りに追加する</button>
                         </div>
                     </form>
-
-                <!-- カート同様、ログアウト時はボタンを押せなくする -->
                 <?php } else { ?>
                     <div class="action-buttons">
                         <button class="add-to-favorite-btn" disabled>お気に入りに追加する</button>
-                        <p>購入及びお気に入りへの追加はログインが必要です。</p>
+                        <p class="login-msg">購入およびお気に入り追加はログインが必要です。</p>
                     </div>
                 <?php } ?>
         </div>
@@ -154,39 +174,35 @@ try {
         <hr>
 
         <section class="product-info-section">
-            <h2>商品情報(まだ未反映)</h2>
+            <h2>商品情報</h2>
             <table class="product-info-table">
                 <tr>
                     <th>発売日</th>
-                    <td>2025年09月04日</td>
+                    <td><?= htmlspecialchars($release_date) ?></td>
                 </tr>
                 <tr>
                     <th>作者</th>
-                    <td>藤本タツキ</td>
+                    <td><?= htmlspecialchars($author_name) ?></td>
                 </tr>
                 <tr>
                     <th>シリーズ</th>
-                    <td>チェンソーマン</td>
+                    <td><?= htmlspecialchars($row['series_name']) ?></td>
                 </tr>
                 <tr>
                     <th>レーベル</th>
-                    <td>ジャンプコミックス</td>
+                    <td><?= htmlspecialchars($label_name) ?></td>
                 </tr>
                 <tr>
                     <th>出版社</th>
-                    <td>集英社</td>
+                    <td><?= htmlspecialchars($publisher_name) ?></td>
                 </tr>
                 <tr>
                     <th>ジャンル</th>
-                    <td>バトル・アクション</td>
+                    <td><?= htmlspecialchars($genre_name) ?></td>
                 </tr>
                 <tr>
                     <th>ページ数</th>
-                    <td>192p</td>
-                </tr>
-                                <tr>
-                    <th>発売日</th>
-                    <td><?= $release_date ?></td>
+                    <td><?= htmlspecialchars($pages) ?>p</td>
                 </tr>
             </table>
         </section>
@@ -195,7 +211,7 @@ try {
 
         <section class="product-description-section">
             <h2>商品説明</h2>
-            <p><?= $row['overview'] ?></p>
+            <p><?= nl2br(htmlspecialchars($overview)) ?></p>
         </section>
     </div>
 </main>
@@ -218,7 +234,6 @@ try {
     };
 
     window.prepareFavorite = function(form){
-        // お気に入りには数量は必須でないが、必要ならコピーする
         const countField = form.querySelector('input[name="count"]') || document.getElementById('cart-count');
         if(countField && qty) countField.value = qty.value;
     };
@@ -227,15 +242,18 @@ try {
 
 <?php
     } else {
-        echo '<p>商品が見つかりません。</p>';
+        echo '<p class="error-msg">該当する商品が見つかりませんでした。</p>';
     }
 } catch(PDOException $e) {
-    echo '<p>データベースエラーが発生しました。</p>';
+    echo '<p class="error-msg">データベースエラー: ' . htmlspecialchars($e->getMessage()) . '</p>';
+    // authorテーブルが見つからない場合のエラーヒント
+    if (strpos($e->getMessage(), "author") !== false) {
+        echo '<p>※「author」テーブル、または「author_name」カラムが見つからない可能性があります。</p>';
+    }
 }
 ?>
 
 <?php
-// footer.phpを読み込む (後でPHPロジックを追加する際に使用)
 require 'common/menu.php';
 require 'common/footer.php';
 ?>
