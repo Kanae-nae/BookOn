@@ -1,0 +1,321 @@
+/* css/g8.css */
+
+/* --------------------------------
+ * 1. 全体設定
+ * -------------------------------- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    /* ヘッダー(60px) */
+    padding-top: 60px;
+    /* フッター(70px)分の余白（固定エリアがなくなったので減らしました） */
+    padding-bottom: 80px; 
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* --------------------------------
+ * 3. メインコンテンツ
+ * -------------------------------- */
+.favorite-main {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* ページタイトル */
+.page-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* --------------------------------
+ * 4. 商品リスト
+ * -------------------------------- */
+.fav-list {
+    border-top: 1px solid #eee;
+}
+
+.fav-item {
+    display: flex;
+    padding: 20px 15px;
+    border-bottom: 1px solid #eee;
+    align-items: flex-start; /* 上揃え */
+    position: relative;
+}
+
+/* チェックボックスエリア */
+.fav-check {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 30px; /* 画像の中央あたりに来るように調整 */
+}
+
+/* カスタムチェックボックス (青い四角) */
+.custom-checkbox {
+    display: none; /* 本来のチェックボックスを隠す */
+}
+
+.check-label {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+/* チェックされた時のスタイル */
+.custom-checkbox:checked + .check-label {
+    background-color: #2b54d6; /* 青色 */
+    border-color: #2b54d6;
+}
+
+/* ▼▼▼ 修正箇所：チェックマーク ▼▼▼ */
+.custom-checkbox:checked + .check-label::after {
+    /* Font Awesomeのチェックマークを使用 */
+    content: '\f00c';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    
+    color: #ffffff; /* 確実に白にする */
+    font-size: 14px;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/* ▲▲▲ 修正箇所終わり ▲▲▲ */
+
+
+/* 画像エリア */
+.fav-image {
+    width: 90px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.fav-image img {
+    width: 100%;
+    height: auto;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 詳細情報エリア */
+.fav-details {
+    flex-grow: 1;
+    font-size: 12px;
+    line-height: 1.5;
+    position: relative;
+}
+
+.fav-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    line-height: 1.3;
+}
+
+.fav-author {
+    color: #888;
+    margin-bottom: 5px;
+    font-size: 11px;
+}
+
+/* 星評価 */
+.fav-rating {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.stars {
+    color: #e6e600;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.rating-text {
+    color: #333;
+    font-weight: bold;
+    margin-right: 3px;
+}
+
+.review-count {
+    color: #0056b3;
+}
+
+.fav-meta {
+    color: #555;
+    font-size: 11px;
+}
+
+.fav-meta span {
+    display: block; /* 改行させる */
+}
+
+.meta-link {
+    color: #0056b3;
+}
+
+.fav-date {
+    margin-top: 5px;
+    font-size: 11px;
+}
+
+.fav-type {
+    margin-top: 5px;
+    display: inline-block;
+}
+
+/* 価格と削除ボタンの行 */
+.fav-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 10px;
+}
+
+.fav-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #d9534f; /* 赤色 */
+}
+
+.price-tax {
+    font-size: 11px;
+    color: #333;
+    font-weight: normal;
+}
+
+/* 削除エリア */
+.fav-delete {
+    text-align: center;
+    color: #333;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.delete-icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 2px;
+    color: #333;
+}
+
+.delete-text {
+    font-size: 10px;
+    display: block;
+}
+
+/* 数量選択 (2つ目のアイテム用) */
+.qty-select {
+    position: absolute;
+    right: 0;
+    top: 60px; /* 位置調整 */
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.qty-select select {
+    margin-left: 5px;
+    padding: 2px 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* --------------------------------
+ * 5. 下部アクションエリア (固定解除)
+ * -------------------------------- */
+.bottom-action-area {
+    position: relative; 
+    
+    width: 100%;
+    background-color: #ffffff;
+    /* ▼▼▼ 修正箇所：この線を削除 ▼▼▼ */
+    /* border-top: 1px solid #ddd;  */
+    /* ▲▲▲ 修正箇所終わり ▲▲▲ */
+    padding: 20px 20px;
+    text-align: center;
+    
+    margin-bottom: 20px;
+}
+
+
+.selection-count {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.btn-add-cart {
+    background-color: #5362ce; /* 画像のような青紫色 */
+    color: white;
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+/* --------------------------------
+ * 6. フッター (共通設定)
+ * -------------------------------- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 100;
+    background-color: #f0e64a;
+    /* ▼▼▼ 修正箇所：この線は残します（フッターのデザインとして） ▼▼▼ */
+    border-top: 1px solid #ddd; 
+    /* ▲▲▲ 修正箇所終わり ▲▲▲ */
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-top: 8px;
+}
+
+.bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+    font-size: 11px;
+    flex-basis: 0;
+    flex-grow: 1;
+}
+
+.bottom-nav .nav-item i {
+    font-size: 24px;
+    color: #8a8a8a;
+    margin-bottom: 4px;
+}
