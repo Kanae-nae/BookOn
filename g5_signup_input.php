@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/g5.css">
+    <script src="script/prefectures.js"></script>
 </head>
 
 <body>
@@ -19,11 +20,12 @@
             </a>
         </div>
     </header>
-
+  
     <main>
     <h1>新規会員登録</h1>
    
-    <div class="registration-container" id="signup">
+    <div class="registration-container">
+ 
         <form action="g5_signup_output.php" method="post" class="registration-form">
  
             <section class="form-section">
@@ -32,39 +34,27 @@
                 <div class="form-group">
                     <label for="username">ユーザーネーム</label>
                     <p class="guide-text">※レビュー投稿時に他の会員に表示されます。</p>
-                    <input type="text" id="username" name="user_name" placeholder="オサム" class="input" v-model="username" @blur="validateUsername" required>
-                    <p v-if="touched.username && errors.username" class="has-text-danger">{{ errors.username }}</p>
+                    <input type="text" id="username" name="user_name" placeholder="オサム" class="input" required>
                 </div>
                
                 <div class="form-group">
                     <label for="email">メールアドレス</label>
-                    <input type="email" id="email" name="mail_address" placeholder="bookon@example.com" class="input" v-model="email" @blur="validateEmail" required>
-                    <p v-if="touched.email && errors.email" class="has-text-danger">{{ errors.email }}</p>
+                    <input type="email" id="email" name="mail_address" placeholder="bookon@example.com" class="input" required>
                 </div>
  
                 <div class="form-group">
                     <label for="email_confirm">メールアドレス（確認用）</label>
-                    <input type="email" id="email_confirm" name="email_confirm" placeholder="bookon@example.com" class="input" v-model="emailConfirm" @blur="validateEmailConfirm" required>
-                    <p v-if="touched.emailConfirm && errors.emailConfirm" class="has-text-danger">{{ errors.emailConfirm }}</p>
+                    <input type="email" id="email_confirm" name="email_confirm" placeholder="bookon@example.com" class="input" required>
                 </div>
                
                 <div class="form-group">
                     <label for="password">パスワード</label>
-                    <input type="password" id="password" name="password" placeholder="Bookon123" class="input" v-model="pass" @blur="validatePass" required>
-                    <p v-if="touched.pass && errors.pass" class="has-text-danger">{{ errors.pass }}</p>
-                    <ul class="guide-text">
-                        <li>半角英数字を1文字以上使用</li>
-                        <li>大文字、小文字の区別あり</li>
-                        <li>8文字以上16文字以内</li>
-                    </ul>
+                    <input type="password" id="password" name="password" placeholder="Bookon123" class="input" required>
                 </div>
-            
                 <div class="form-group">
                     <label for="password_confirm">パスワード（確認用）</label>
-                    <input type="password" id="password_confirm" name="password_confirm" placeholder="Bookon123" class="input" v-model="passConfirm" @blur="validatePassConfirm" required>
-                    <p v-if="touched.passConfirm && errors.passConfirm" class="has-text-danger">{{ errors.passConfirm }}</p>
+                    <input type="password" id="password_confirm" name="password_confirm" placeholder="Bookon123" class="input" required>
                 </div>
-
             </section>
            
             <section class="form-section">
@@ -81,15 +71,13 @@
                     <div class="input-inline">
                         <div>
                             <label for="name_kanji_sei">姓</label>
-                            <input type="text" id="name_kanji_sei" name="last_name" placeholder="手塚" class="input" v-model="lastname" @blur="validateLastName" required>
+                            <input type="text" id="name_kanji_sei" name="last_name" placeholder="手塚" class="input" required>
                         </div>
                         <div>
                             <label for="name_kanji_mei">名</label>
-                            <input type="text" id="name_kanji_mei" name="first_name" placeholder="治虫" class="input" v-model="firstname" @blur="validateFirstName" required>
+                            <input type="text" id="name_kanji_mei" name="first_name" placeholder="治虫" class="input" required>
                         </div>
                     </div>
-                    <p v-if="touched.lastname && errors.lastname" class="has-text-danger">{{ errors.lastname }}</p>
-                    <p v-if="touched.firstname && errors.firstname" class="has-text-danger">{{ errors.firstname }}</p>
                 </div>
                 <div class="form-group required-field">
                     <div class="label-with-badge">
@@ -102,15 +90,13 @@
                     <div class="input-inline">
                         <div>
                             <label for="name_kana_sei">セイ</label>
-                            <input type="text" id="name_kana_sei" name="last_name_kana" placeholder="テヅカ" class="input" v-model="lastnamekana" @blur="validateLastNameKana" required>
+                            <input type="text" id="name_kana_sei" name="last_name_kana" placeholder="テヅカ" class="input" required>
                         </div>
                         <div>
                             <label for="name_kana_mei">メイ</label>
-                            <input type="text" id="name_kana_mei" name="first_name_kana" placeholder="オサム" class="input" v-model="firstnamekana" @blur="validateFirstNameKana" required>
+                            <input type="text" id="name_kana_mei" name="first_name_kana" placeholder="オサム" class="input" required>
                         </div>
                     </div>
-                    <p v-if="touched.lastnamekana && errors.lastnamekana" class="has-text-danger">{{ errors.lastnamekana }}</p>
-                    <p v-if="touched.firstnamekana && errors.firstnamekana" class="has-text-danger">{{ errors.firstnamekana }}</p>
                 </div>
                 <div class="form-group required-field">
                     <div class="label-with-badge">
@@ -122,20 +108,17 @@
                     </div>
                     <div class="input-inline date-select">
                         <div class="select">
-                            <select id="birth_year" name="year">
+                            <select id="birth_year" name="year" required>
                                 <?php
-                                $defaultYear = 2000;
-
-                                for ($i = 1925; $i <= 2025; $i++) {
-                                    $selected = ($i == $defaultYear) ? 'selected' : '';
-                                    echo "<option value=\"$i\" $selected>$i</option>";
+                                for($i=1925; $i<2026; $i++){
+                                    echo '<option value = "'.$i.'">'.$i.'</option>';
                                 }
                                 ?>
                             </select>
                         </div>
                         <span>年</span>
                         <div class="select">
-                            <select id="birth_month" name="month">
+                            <select id="birth_month" name="month" required>
                                 <?php
                                     for($i=1; $i<13; $i++){
                                         if($i < 10){
@@ -148,7 +131,7 @@
                         </div>
                         <span>月</span>
                         <div class="select">
-                            <select id="birth_day" name="date">
+                            <select id="birth_day" name="date" required>
                                 <?php
                                 for($i=1; $i<32; $i++){
                                     if($i < 10){
@@ -187,15 +170,20 @@
                 </div>
             </section>
             <div class="button-area">
-                <button type="submit" class="submit-btn button is-info is-fullwidth is-rounded" style="font-weight: bold; font-size: 1.1rem; height: 50px;" :disabled="hasErrors">会員登録</button>
-                <button type="button" class="back-btn button is-light is-fullwidth is-rounded" @click="goBackPage" style="font-weight: bold; font-size: 1.1rem; height: 50px; margin-top: 15px;">戻る</button>
+                <button type="submit" class="submit-btn button is-info is-fullwidth is-rounded" style="font-weight: bold; font-size: 1.1rem; height: 50px;">会員登録</button>
+                <button type="button" class="back-btn button is-light is-fullwidth is-rounded" id="toSame" style="font-weight: bold; font-size: 1.1rem; height: 50px; margin-top: 15px;">戻る</button>
             </div>
         </form>
     </div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2.7.11/dist/vue.js"></script>
-<script type="module" src="script/vue_signup.js"></script>
+<script>
+// 違うページに飛ばす
+document.getElementById('toSame').addEventListener('click', function () {
+    // 相対パスや絶対URLを指定できます
+    location.href = 'g4_login_input.php';
+});
+</script>
 
 </body>
 </html>
