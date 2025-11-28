@@ -26,7 +26,7 @@
             </form>
             
             <?php
-            // ★★★ PHPロジック (DB接続版：カラム名修正済み) ★★★
+            // ★★★ PHPロジック (JOIN対応・全文検索版) ★★★
             
             $keyword = $_GET['keyword'] ?? '';
 
@@ -47,12 +47,17 @@
                     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                     // SQL作成
-                    // ★修正★: title列がないので、series_name(シリーズ名) や publisher(出版社) を検索対象に変更
-                    // ※ テーブル名が 'products' でない場合はここも修正が必要です
-                    $sql = "SELECT * FROM products 
-                            WHERE series_name LIKE :keyword 
-                               OR publisher LIKE :keyword 
-                               OR label LIKE :keyword";
+                    // productsテーブルに、authorテーブルとgenreテーブルを結合(LEFT JOIN)
+                    // 検索条件に author_name と genre_name を追加
+                    $sql = "SELECT products.*, author.author_name, genre.genre_name 
+                            FROM products 
+                            LEFT JOIN author ON products.author_id = author.author_id
+                            LEFT JOIN genre  ON products.genre_id  = genre.genre_id
+                            WHERE products.series_name LIKE :keyword 
+                               OR products.publisher   LIKE :keyword 
+                               OR products.label       LIKE :keyword
+                               OR author.author_name   LIKE :keyword 
+                               OR genre.genre_name     LIKE :keyword";
                     
                     $stmt = $pdo->prepare($sql);
 
@@ -73,32 +78,29 @@
                         echo '<div class="product-list">';
                         
                         foreach ($products as $row) {
-                            // ★修正★: DBの実際のカラム名に合わせてデータを取得
-                            $id     = $row['product_id'];           // product_id
-                            $img    = $row['product_img_url'];      // product_img_url
-                            $price  = $row['price'];                // price
+                            $id     = $row['product_id'];
+                            $img    = $row['product_img_url'];
+                            $price  = $row['price'];
                             
-                            // タイトルとして「シリーズ名 + 巻数」を表示
+                            // タイトル
                             $title  = $row['series_name'] . ' ' . $row['volume_number'];
                             
-                            // 作者カラムがないため、出版社を表示に使用
-                            $publisher = $row['publisher']; 
+                            // 結合したテーブルから作者名とジャンル名を取得
+                            // (データがない場合は空文字になるのを防ぐため ?? '' を使用しても良いですが、今回はそのまま)
+                            $author_name = $row['author_name']; 
+                            $genre_name  = $row['genre_name'];
 
-                            // その他
-                            $series       = $row['series_name'];
                             $label        = $row['label'];
                             $release_date = $row['release_date'];
                             
-                            // 評価などはDBにないので仮の値 (必要ならカラムを追加してください)
+                            // 評価などは仮の値
                             $rating       = 4.0; 
-                            $reviews      = 0;
 
                             // HTML出力
                             echo '<a href="g2_detail.php?id=' . htmlspecialchars($id, ENT_QUOTES) . '" class="product-item">';
                             
                             // 画像
                             echo '<div class="product-image">';
-                            // 画像パスが正しいか注意してください
                             echo '<img src="' . htmlspecialchars($img, ENT_QUOTES) . '" alt="' . htmlspecialchars($title, ENT_QUOTES) . '">';
                             echo '</div>';
                             
@@ -106,8 +108,8 @@
                             echo '<div class="product-info">';
                             echo '<h3 class="product-title">' . htmlspecialchars($title, ENT_QUOTES) . '</h3>';
                             
-                            // 作者の代わりに出版社を表示
-                            echo '<p class="product-author">' . htmlspecialchars($publisher, ENT_QUOTES) . '</p>';
+                            // 作者名を表示 (以前は出版社だった箇所)
+                            echo '<p class="product-author">' . htmlspecialchars($author_name, ENT_QUOTES) . '</p>';
                             
                             // 星評価 (仮)
                             echo '<div class="product-rating">';
@@ -115,7 +117,11 @@
                             echo '<span class="rating-score">' . htmlspecialchars($rating, ENT_QUOTES) . '</span>';
                             echo '</div>';
 
+                            // ジャンルを表示
+                            echo '<p class="product-meta"><strong>ジャンル</strong> ' . htmlspecialchars($genre_name, ENT_QUOTES) . '</p>';
+                            // レーベルも表示
                             echo '<p class="product-meta"><strong>レーベル</strong> ' . htmlspecialchars($label, ENT_QUOTES) . '</p>';
+                            
                             echo '<p class="product-meta">' . htmlspecialchars($release_date, ENT_QUOTES) . ' 発売</p>';
                             
                             // 価格
@@ -135,7 +141,7 @@
                 }
 
             } else {
-                echo '<p class="search-helper-text">作品名・出版社などで<br>検索可能です</p>';
+                echo '<p class="search-helper-text">作品名・作者名・ジャンルなどで<br>検索可能です</p>';
             }
             ?>
             

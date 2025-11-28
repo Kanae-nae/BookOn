@@ -10,18 +10,15 @@ try {
     $pdo = new PDO($connect, USER, PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // ★修正★: 複数のテーブルを JOIN して情報をまとめて取得します
-    // products(商品) -> series(作品情報) -> genre(ジャンル) -> author(作者)
+    // ★修正★: productsテーブルを基準に、authorとgenreを結合して取得
+    // ※seriesテーブルは使わず、productsにある author_id, genre_id, series_name を使います
     $sql = 'SELECT 
                 products.*, 
-                series.series_name, 
-                series.overview, 
                 genre.genre_name, 
                 author.author_name 
             FROM products
-            JOIN series ON products.series_id = series.series_id
-            LEFT JOIN genre ON series.genre_id = genre.genre_id
-            LEFT JOIN author ON series.author_id = author.author_id
+            LEFT JOIN genre ON products.genre_id = genre.genre_id
+            LEFT JOIN author ON products.author_id = author.author_id
             WHERE products.product_id = :product_id';
 
     $stmt = $pdo->prepare($sql);
@@ -32,8 +29,10 @@ try {
     if($row) {
         // --- データ整形エリア ---
 
-        // 商品名の作成 (シリーズ名 + 半角スペース + 巻数)
-        $product_name = $row['series_name'] . " " . $row['volume_number'];
+        // ★修正★ 商品名の作成 (作品名 + 半角スペース + 巻数 + "巻" + " | " + 出版社)
+        // 表示例: チェンソーマン 22巻 | 集英社
+        $publisher_str = $row['publisher'] ?? '';
+        $product_name = $row['series_name'] . " " . $row['volume_number'] . "巻 | " . $publisher_str;
 
         // 発売日の整形 (YYYY-MM-DD -> YYYY年MM月DD日)
         $release_date_str = $row['release_date'] ?? '';
@@ -48,9 +47,10 @@ try {
             $release_date = '不明';
         }
 
-        // 変数セット (データがない場合の対策も含む)
+        // 変数セット
         $author_name = $row['author_name'] ?? '作者不明';
         $genre_name  = $row['genre_name'] ?? '-';
+        // productsテーブルにoverview(あらすじ)がない場合は固定文言を表示
         $overview    = $row['overview'] ?? '商品説明がありません。';
         
         // productsテーブルにある情報
@@ -72,6 +72,7 @@ try {
         </div>
 
         <h1 class="product-title"><?= htmlspecialchars($product_name) ?></h1>
+        
         <div class="product-author"><a href="#"><?= htmlspecialchars($author_name) ?></a></div>
         
         <div class="rating">
@@ -246,10 +247,6 @@ try {
     }
 } catch(PDOException $e) {
     echo '<p class="error-msg">データベースエラー: ' . htmlspecialchars($e->getMessage()) . '</p>';
-    // authorテーブルが見つからない場合のエラーヒント
-    if (strpos($e->getMessage(), "author") !== false) {
-        echo '<p>※「author」テーブル、または「author_name」カラムが見つからない可能性があります。</p>';
-    }
 }
 ?>
 
