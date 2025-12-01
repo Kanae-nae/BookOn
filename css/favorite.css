@@ -46,10 +46,8 @@
 .rating {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
     font-size: 12px;
-    color: #ffc107;
-    /* 星の色 */
+    color: #ffc107; /* 星の色 */
 }
 
 .rating-stars {
