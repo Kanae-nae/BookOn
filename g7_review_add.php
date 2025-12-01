@@ -1,24 +1,12 @@
-<?php
+<?php require 'common/header.php';
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require 'common/header.php';
+require 'common/db-connect.php';
 
-// ★★★ データベース接続情報と接続処理を追加 ★★★
-const SERVER = 'mysql323.phy.lolipop.lan';
-const DBNAME = 'LAA1658836-bookon';
-const USER = 'LAA1658836';
-const PASS = 'passbookon';
-$connect = 'mysql:host='. SERVER .';dbname='. DBNAME .';charset=utf8';
-
-try {
-    $pdo = new PDO($connect, USER, PASS);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // echo "接続成功"; // デバッグ用
-} catch (PDOException $e) {
-    die("データベース接続エラー: " . $e->getMessage());
+// デバッグ用
+if(!empty($_POST)){
+    var_dump($_POST);
 }
-// ★★★ データベース接続情報と接続処理はここまで ★★★
-
 
 // 今年の年を取得
 $current_year = date('Y');
@@ -28,64 +16,28 @@ $years = range($current_year, 2000);
 $months = range(1, 12);
 $days = range(1, 31);
 
+try {
+    // ★★★ データベース接続情報と接続処理 ★★★
+    $pdo = new PDO($connect, USER, PASS);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// ★★★ フォーム送信処理を追加 ★★★
-$success_message = '';
-$error_message = '';
+    // ★★★ 情報の取得 ★★★
+    $pdo = new PDO($connect, USER, PASS);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // フォームから送信された値を取得
-    // user_idとproduct_idは、ここでは仮の値 (実際のECサイトではセッションやURLパラメータから取得)
-    $user_id = 1; // 仮のユーザーID
-    $product_id = 100; // 仮の商品ID（「チェンソーマン 22巻」に対応）
+    $sql = 'SELECT products.* FROM products
+    WHERE products.product_id = :product_id';
 
-    $rating = filter_input(INPUT_POST, 'score', FILTER_VALIDATE_FLOAT);
-    $comment = filter_input(INPUT_POST, 'review-text');
-    $year = filter_input(INPUT_POST, 'year', FILTER_VALIDATE_INT);
-    $month = filter_input(INPUT_POST, 'month', FILTER_VALIDATE_INT);
-    $day = filter_input(INPUT_POST, 'day', FILTER_VALIDATE_INT);
-    
-    // 鑑賞日の設定 (日付が選択されていなければNULL、全て揃っていればYYYY-MM-DD形式)
-    $view_date = null;
-    if ($year && $month && $day) {
-        // 月と日が1桁の場合にゼロ埋め
-        $month_str = str_pad($month, 2, '0', STR_PAD_LEFT);
-        $day_str = str_pad($day, 2, '0', STR_PAD_LEFT);
-        $view_date = "{$year}-{$month_str}-{$day_str}";
-    }
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':product_id', $_GET['id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($rating !== false && $rating !== null && $user_id && $product_id) {
-        try {
-            // INSERT文の準備
-            $sql = "INSERT INTO review (product_id, user_id, rating, comment, created_at, updated_at, view_date) 
-                    VALUES (:product_id, :user_id, :rating, :comment, NOW(), NOW(), :view_date)";
-            
-            $stmt = $pdo->prepare($sql);
-            
-            // パラメータのバインド
-            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-            $stmt->bindParam(':rating', $rating, PDO::PARAM_STR); // ratingはDECIMAL型のためSTRでバインド
-            $stmt->bindParam(':comment', $comment, PDO::PARAM_STR);
-            $stmt->bindParam(':view_date', $view_date, $view_date === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
-            
-            // 実行
-            $stmt->execute();
-            
-            $success_message = 'レビューを正常に登録しました。';
-            
-            // 登録成功後のリダイレクト処理などを追加しても良い
-            // header('Location: success_page.php');
-            // exit;
-            
-        } catch (PDOException $e) {
-            $error_message = 'レビュー登録中にエラーが発生しました: ' . $e->getMessage();
-        }
-    } else {
-        $error_message = 'スコアが正しく入力されていません。';
-    }
-}
-// ★★★ フォーム送信処理はここまで ★★★
+    // --- データ整形エリア ---
+
+    if($row) {
+        // 商品名の作成 (シリーズ名 + 半角スペース + 巻数)
+        $product_name = $row['series_name'] . " " . strval($row['volume_number']) . "巻";
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="review-container">
     <div class="review-header">
-        <a href="#" class="back-btn">
+        <a href="#" onclick="history.back(); return false;" class="back-btn">
             <svg class="back-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -109,18 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>レビュー登録</h1>
     </div>
 
-    <?php if (!empty($success_message)): ?>
-        <p style="color: green; font-weight: bold;"><?php echo $success_message; ?></p>
-    <?php endif; ?>
-    <?php if (!empty($error_message)): ?>
-        <p style="color: red; font-weight: bold;"><?php echo $error_message; ?></p>
-    <?php endif; ?>
-    <form action="" method="POST"> 
+    <form action="review/review_insert.php?id=<?= $row['product_id'] ?>" method="POST"> 
     
     <section class="review-item-info">
-        <h2>チェンソーマン 22巻</h2>
+        <h2><?= $product_name ?></h2>
         <div class="item-details">
-            <img src="image/che-n22.jpg" alt="チェンソーマン 22巻" class="item-cover">
+            <img src="<?= $row['product_img_url'] ?>" alt="<?= $product_name ?>" class="item-cover">
 
             <div class="item-inputs">
                 <div class="input-group score-group">
@@ -145,19 +91,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="date-group-wrapper"> 
                     <label class="date-label">鑑賞日</label>
                     <div class="date-selects">
-                        <select name="year">
+                        <select name="year" required>
                             <option value="">年</option>
                             <?php foreach ($years as $year): ?>
                                 <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <select name="month">
+                        <select name="month" required>
                             <option value="">月</option>
                             <?php foreach ($months as $month): ?>
                                 <option value="<?php echo $month; ?>"><?php echo $month; ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <select name="day">
+                        <select name="day" required>
                             <option value="">日</option>
                             <?php foreach ($days as $day): ?>
                                 <option value="<?php echo $day; ?>"><?php echo $day; ?></option>
@@ -178,6 +124,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     </form> 
     </div>
+
+<?php
+    } else {
+        // 商品が見つからなかった場合
+        echo '<p>該当する商品が見つかりませんでした。</p>';
+    }
+} catch(PDOException $e) {
+    echo '<p>データベースエラーが発生しました。</p>' . $e;
+}
+?>
+
 <script>
     // 必要な要素を取得
     const scoreSelect = document.getElementById('score');
@@ -210,4 +167,3 @@ require 'common/footer.php';
 ?>
 </body>
 </html>
-

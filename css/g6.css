@@ -27,10 +27,12 @@ a {
 /* --------------------------------
  * 2. メインコンテンツエリア
  * -------------------------------- */
+
 .review-page-main {
     padding: 15px;
     max-width: 600px; /* PCで見ても広がりすぎないように */
-    margin: 0 auto;
+    margin: auto;
+    margin-top: 15px;
 }
 
 /* 「< 戻る」ボタン */
@@ -43,6 +45,7 @@ a {
     border-radius: 20px;
     font-size: 14px;
     font-weight: bold;
+    margin-top: 15px;
     margin-bottom: 15px;
     background-color: #fff;
 }
@@ -150,14 +153,14 @@ a {
 }
 
 /* レビューボタン (薄い黄色背景・枠線あり) */
-.btn-review {
+.btn-before {
     background-color: #fffde7; 
     border: 1px solid #fbc02d;
     color: #f57f17;
 }
 
 /* お気に入りボタン (濃い黄色背景・塗りつぶし) */
-.btn-favorite {
+.btn-after {
     background-color: #f0e64a;
     border: none;
     color: #333;
@@ -223,10 +226,12 @@ a {
 }
 
 .review-stars {
+    display: flex;
+    align-items: center;
     color: #e6e600;
     font-size: 12px;
-    margin-bottom: 5px;
 }
+
 .review-score-num {
     color: #aaa;
     font-size: 11px;
@@ -236,6 +241,7 @@ a {
 .review-text {
     font-size: 13px;
     line-height: 1.5;
+    margin-top: 5px;
     margin-bottom: 8px;
     color: #333;
 }
@@ -337,4 +343,57 @@ a {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* 以下追加 */
+
+/* メニューボタン */
+.menu-dropdown {
+    position: relative;
+}
+
+#menu-btn {
+    background: none !important;
+    border: none !important;
+}
+
+#menu-options {
+    position: absolute !important; /* 親要素を基準に下に配置 */
+    top: 100% !important; /* ボタンの直下 */
+    right: 0 !important; /* ボタンと右端を合わせる（左寄せにしたいなら left:0） */
+    bottom: auto !important; /* fixed の影響を消す */
+}
+
+/* ログアウト時の追加ボタン(押せなくする) */
+.fab-add-logout {
+    background-color: rgba(43, 84, 214, 0.4) !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    pointer-events: none;
+}
+
+/* アイコン画像(user-avatarに追従) */
+.user-avatar .icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* アスペクト比を保ちつつ切り抜き */
+}
+
+/* 星の画像 */
+.rating {
+    width: 15%;
+}
+
+.rating-display .rating {
+    width: 20%;
+    margin: auto 0px;
+}
+
+/* 画像系(スマホ用) */
+@media screen and (max-width: 480px) {
+    .rating {
+        width: 25%;
+    }
+    .rating-display .rating {
+        width: 30%;
+    }
 }
