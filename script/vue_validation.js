@@ -1,21 +1,11 @@
 // Vue.jsを利用、正規表現の確認
 export const validationMixin = {
     data() {
+        const initialUser = window.initialUser || {};
         return {
-            username: '',
-            email: '',
             emailConfirm: '',
             pass: '',
             passConfirm: '',
-            lastname: '',
-            firstname: '',
-            lastnamekana: '',
-            firstnamekana: '',
-            zipcode: '',
-            city: '',
-            town: '',
-            street_number: '',
-            building_name: '',
             // 触ったかどうか確かめる(=触っていない状態ではエラーメッセージを表示しない)
             touched: {
                 username: false,

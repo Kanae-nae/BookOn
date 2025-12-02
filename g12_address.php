@@ -54,7 +54,7 @@
 
             <!-- 町名 -->
             <label for="town">町名</label><br>
-            <input type="text" id="town" name="town" placeholder="千代田" value="<?= $_SESSION['user']['town']?>" d>
+            <input type="text" id="town" name="town" placeholder="千代田" value="<?= $_SESSION['user']['town']?>" required>
             <br>
 
             <!-- 番地 -->
@@ -64,8 +64,8 @@
             <br>
 
             <!-- 建物名 -->
-            <label for="mansion">建物名など</label><br>
-            <input type="text" id="mansion" name="building_name" alue="<?= $_SESSION['user']['building_name']?>">
+            <label for="mansion">建物名など(任意)</label><br>
+            <input type="text" id="mansion" name="building_name" value="<?= $_SESSION['user']['building_name']?>">
         </div>
         <input type="submit" class="btn order-btn" value="決済情報へ">
     </form>

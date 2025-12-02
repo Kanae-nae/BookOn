@@ -4,10 +4,6 @@ import { PREFECTURES } from './vue_prefectures.js';
 export const addressMixin = {
     data() {
         return {
-            zipcode: "",
-            prefecture: "",
-            city: "",
-            town: "",
             error: "",
             prefectures: [],
             PREFECTURES
@@ -25,7 +21,7 @@ export const addressMixin = {
         // 郵便番号から住所を検索
         async searchAddress() {
             this.error = "";
-            const zipcode = this.zipcode.trim();
+            const zipcode = String(this.zipcode || '').trim();
 
             if (!/^\d{7}$/.test(zipcode)) {
                 this.error = "郵便番号は7桁の数字で入力してください。";

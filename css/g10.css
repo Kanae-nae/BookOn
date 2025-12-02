@@ -318,3 +318,12 @@ h1 {
     margin-top: 15px;
 }
 
+header {
+    display: flex;
+}
+
+header .logout-btn {
+    width: auto; /* 必要な分だけの幅にする */
+    float: right; /* 右寄せ */
+    font-weight: bold;
+}
