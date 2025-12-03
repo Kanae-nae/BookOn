@@ -1,27 +1,28 @@
-<?php require 'common/header.php'; ?>
-<?php require 'common/db-connect.php'; ?>
+<?php 
+// セッション開始
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+require 'common/header.php'; 
+require 'common/db-connect.php'; 
+?>
 
 <link rel="stylesheet" href="css/g2.css">
 
 <?php
 try {
-    // DB接続 (common/db-connect.phpの設定を使用)
-    // もしdb-connect.php内で $pdo を作っていない場合は、以下の行を生かしてください
+    // DB接続
     $pdo = new PDO($connect, USER, PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // ★修正★: 複数のテーブルを JOIN して情報をまとめて取得します
-    // products(商品) -> series(作品情報) -> genre(ジャンル) -> author(作者)
+    // productsテーブルを基準に、authorとgenreを結合して取得
     $sql = 'SELECT 
                 products.*, 
-                series.series_name, 
-                series.overview, 
                 genre.genre_name, 
                 author.author_name 
             FROM products
-            JOIN series ON products.series_id = series.series_id
-            LEFT JOIN genre ON series.genre_id = genre.genre_id
-            LEFT JOIN author ON series.author_id = author.author_id
+            LEFT JOIN genre ON products.genre_id = genre.genre_id
+            LEFT JOIN author ON products.author_id = author.author_id
             WHERE products.product_id = :product_id';
 
     $stmt = $pdo->prepare($sql);
@@ -32,10 +33,11 @@ try {
     if($row) {
         // --- データ整形エリア ---
 
-        // 商品名の作成 (シリーズ名 + 半角スペース + 巻数)
-        $product_name = $row['series_name'] . " " . $row['volume_number'];
+        // 商品名の作成
+        $publisher_str = $row['publisher'] ?? '';
+        $product_name = $row['series_name'] . " " . $row['volume_number'] . "巻 | " . $publisher_str;
 
-        // 発売日の整形 (YYYY-MM-DD -> YYYY年MM月DD日)
+        // 発売日の整形
         $release_date_str = $row['release_date'] ?? '';
         if (!empty($release_date_str)) {
             $releases = explode("-", $release_date_str);
@@ -48,12 +50,11 @@ try {
             $release_date = '不明';
         }
 
-        // 変数セット (データがない場合の対策も含む)
+        // 変数セット
         $author_name = $row['author_name'] ?? '作者不明';
         $genre_name  = $row['genre_name'] ?? '-';
         $overview    = $row['overview'] ?? '商品説明がありません。';
         
-        // productsテーブルにある情報
         $publisher_name = $row['publisher'] ?? '-';
         $label_name     = $row['label'] ?? '-';
         $pages          = $row['pages'] ?? '-';
@@ -72,6 +73,7 @@ try {
         </div>
 
         <h1 class="product-title"><?= htmlspecialchars($product_name) ?></h1>
+        
         <div class="product-author"><a href="#"><?= htmlspecialchars($author_name) ?></a></div>
         
         <div class="rating">
@@ -144,7 +146,9 @@ try {
                 <input type="hidden" name="author_name" value="<?= htmlspecialchars($author_name) ?>">
                 <input type="hidden" name="price" value="<?= htmlspecialchars($price) ?>">
 
-                <?php if(isset($_SESSION['user'])){ ?>
+                <?php 
+                if(isset($_SESSION['user'])){ 
+                ?>
                     <div class="action-buttons">
                         <button type="submit" class="add-to-cart-btn">カートに入れる</button>
                     </div>
@@ -155,8 +159,10 @@ try {
                 <?php } ?>
                 </form>
 
-                <?php if(isset($_SESSION['user'])){ ?>
-                    <form action="" method="post" onsubmit="prepareFavorite(this);">
+                <?php 
+                if(isset($_SESSION['user'])){ 
+                ?>
+                    <form action="g8-2_favorite_insert.php" method="post" onsubmit="prepareFavorite(this);">
                         <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
                         <div class="action-buttons">
                             <button type="submit" class="add-to-favorite-btn">お気に入りに追加する</button>
@@ -246,10 +252,6 @@ try {
     }
 } catch(PDOException $e) {
     echo '<p class="error-msg">データベースエラー: ' . htmlspecialchars($e->getMessage()) . '</p>';
-    // authorテーブルが見つからない場合のエラーヒント
-    if (strpos($e->getMessage(), "author") !== false) {
-        echo '<p>※「author」テーブル、または「author_name」カラムが見つからない可能性があります。</p>';
-    }
 }
 ?>
 
