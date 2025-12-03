@@ -27,23 +27,13 @@
             
             <?php
             // ★★★ PHPロジック (JOIN対応・全文検索版) ★★★
-            
+            require 'common/db-connect.php';
             $keyword = $_GET['keyword'] ?? '';
 
             if ($keyword !== '') {
                 
                 try {
-                    // ▼▼▼ 設定エリア (Lolipop設定) ▼▼▼
-                    $db_host = 'mysql323.phy.lolipop.lan';
-                    $db_name = 'LAA1658836-bookon';
-                    $db_user = 'LAA1658836';
-                    $db_pass = 'passbookon';
-                    $db_char = 'utf8';
-                    // ▲▲▲ 設定エリア終了 ▲▲▲
-
-                    $dsn = "mysql:dbname={$db_name};host={$db_host};charset={$db_char}";
-                    
-                    $pdo = new PDO($dsn, $db_user, $db_pass);
+                    $pdo = new PDO($connect, USER, PASS);
                     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                     // SQL作成
@@ -93,8 +83,21 @@
                             $label        = $row['label'];
                             $release_date = $row['release_date'];
                             
-                            // 評価などは仮の値
-                            $rating       = 4.0; 
+                            // レビュー全体の星の数と件数の算出
+                            $sql = "SELECT AVG(rating) AS avg_rating, COUNT(*) AS cnt
+                            FROM review
+                            WHERE product_id = :product_id";
+
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->bindValue(':product_id', $id, PDO::PARAM_INT);
+                            $stmt->execute();
+                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                            $avg_rating = floatval($row['avg_rating']);
+                            $avg_rating = round($avg_rating * 2) / 2;  // ★ 0.5刻みに正規化
+
+                            $ratingNum = isset($avg_rating) && $avg_rating !== null
+                            ? number_format($avg_rating, 1) : 0.0;
 
                             // HTML出力
                             echo '<a href="g2_detail.php?id=' . htmlspecialchars($id, ENT_QUOTES) . '" class="product-item">';
@@ -111,10 +114,11 @@
                             // 作者名を表示 (以前は出版社だった箇所)
                             echo '<p class="product-author">' . htmlspecialchars($author_name, ENT_QUOTES) . '</p>';
                             
-                            // 星評価 (仮)
-                            echo '<div class="product-rating">';
-                            echo '<span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>'; 
-                            echo '<span class="rating-score">' . htmlspecialchars($rating, ENT_QUOTES) . '</span>';
+                            // 星評価
+                            echo '<div class="rating-display">';
+                                echo '<img src="image/rating/' . str_replace('.', '_', $ratingNum) . '.png"
+                                        alt="' . $ratingNum . '" class="rating"/>';
+                                echo '<span class="rating-score">' . htmlspecialchars($ratingNum, ENT_QUOTES) . '</span>';
                             echo '</div>';
 
                             // ジャンルを表示
