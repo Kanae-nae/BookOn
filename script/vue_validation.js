@@ -6,6 +6,12 @@ export const validationMixin = {
             emailConfirm: '',
             pass: '',
             passConfirm: '',
+            zipcode: "",
+            prefecture: "",
+            city: "",
+            town: "",
+            street_number: "",
+            building_name: "",
             // 触ったかどうか確かめる(=触っていない状態ではエラーメッセージを表示しない)
             touched: {
                 username: false,

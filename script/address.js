@@ -5,18 +5,6 @@ const cityInput = document.getElementById("city");
 const townInput = document.getElementById("town");
 const errorEl = document.getElementById("error");
 
-// --- ページ読み込み時に都道府県セレクトを生成 ---
-window.addEventListener("DOMContentLoaded", () => {
-    Object.entries(PREFECTURES)
-        .sort(([a], [b]) => a.localeCompare(b)) // 文字列としてソート
-        .forEach(([code, name]) => {
-            const option = document.createElement("option");
-            option.value = code;
-            option.textContent = name;
-            prefSelect.appendChild(option);
-        });
-});
-
 // --- 郵便番号の検索 ---
 searchButton.addEventListener("click", () => {
     const zipcode = zipcodeInput.value.trim();
@@ -36,10 +24,8 @@ searchButton.addEventListener("click", () => {
                 const city = result.address2;
                 const town = result.address3;
 
-                // 都道府県名からコードを逆引きして選択状態に
-                const code = findPrefCodeByName(prefName);
-                prefSelect.value = code || "";
-
+                // 都道府県名を直接設定
+                prefSelect.value = prefName;
                 cityInput.value = city;
                 townInput.value = town;
             } else {
@@ -56,10 +42,4 @@ zipcodeInput.addEventListener("input", () => {
     if (/^\d{7}$/.test(zipcodeInput.value)) {
         searchButton.click();
     }
-});
-
-// フォームの送信時に都道府県のkeyをvalueに変更
-form.addEventListener("submit", (e) => {
-    const code = prefSelect.value;         // "13"
-    const prefectureName = PREFECTURES[code]; // "東京都"
 });

@@ -25,9 +25,9 @@
                 <p class="guide-text">※郵便番号をもとに自動で入力します ハイフン「-」なしで入力</p>
             </div>
             <div class="postcode">
-                <input type="text" name="zip_code" maxlength="7" value="<?= $_SESSION['user']['zip_code']?>"
+                <input type="text" id="zipcode" name="zip_code" maxlength="7" value="<?= $_SESSION['user']['zip_code']?>"
                 placeholder="1000001" required>
-                <button>検索</button>
+                <button type="button" id="search">検索</button>
                 <p id="error"></p>
             </div>
 
@@ -49,7 +49,7 @@
 
             <!-- 市区町村 -->
             <label for="city">市区町村</label><br>
-            <input type="text" name="city" placeholder="千代田区" value="<?= $_SESSION['user']['city']?>" required>
+            <input type="text" id="city" name="city" placeholder="千代田区" value="<?= $_SESSION['user']['city']?>" required>
             <br>
 
             <!-- 町名 -->

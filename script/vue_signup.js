@@ -22,11 +22,11 @@ new Vue({
         this.firstname = '';
         this.lastnamekana = '';
         this.firstnamekana = '';
-        this.zipcode = '';
-        this.prefecture = '';
-        this.city = '';
-        this.town = '';
-        this.street_number = '';
-        this.building_name = '';
+        // this.zipcode = '';
+        // this.prefecture = '';
+        // this.city = '';
+        // this.town = '';
+        // this.street_number = '';
+        // this.building_name = '';
     }
 });

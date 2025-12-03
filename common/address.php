@@ -12,8 +12,8 @@
         <p class="guide-text">ハイフン「-」なしで入力</p>
     </div>
     <div class="input-inline zipcode-input">
-        <input type="text" name="zip_code" id="zipcode" maxlength="7" class="input zip-part" placeholder="1000001" v-model="zipcode" @blur="validateZipcode">
-        <button type="button" id="search" @click="searchAddress" class="zip-search-btn">検索</button>
+        <input type="text" name="zip_code" id="zipcode" maxlength="7" class="input zip-part" placeholder="1000001" v-model="zipcode" @blur="validateZipcode" @input="handleZipcodeInput">
+        <button type="button" id="search" @click="searchAddress" class="zip-search-btn"  :disabled="isSearching">検索</button>
         <p v-if="touched.zipcode && errors.zipcode" class="has-text-danger">{{ errors.zipcode }}</p>
     </div>
 
