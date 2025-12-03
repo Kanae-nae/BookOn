@@ -1,12 +1,17 @@
-<?php require 'common/header.php'; ?>
-<?php require 'common/db-connect.php'; ?>
+<?php 
+// セッション開始
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+require 'common/header.php'; 
+require 'common/db-connect.php'; 
+?>
 
 <link rel="stylesheet" href="css/g2.css">
 
 <?php
 try {
-    // DB接続 (common/db-connect.phpの設定を使用)
-    // もしdb-connect.php内で $pdo を作っていない場合は、以下の行を生かしてください
+    // DB接続
     $pdo = new PDO($connect, USER, PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -34,7 +39,7 @@ try {
         $publisher_str = $row['publisher'] ?? '';
         $product_name = $row['series_name'] . " " . $row['volume_number'] . "巻 | " . $publisher_str;
 
-        // 発売日の整形 (YYYY-MM-DD -> YYYY年MM月DD日)
+        // 発売日の整形
         $release_date_str = $row['release_date'] ?? '';
         if (!empty($release_date_str)) {
             $releases = explode("-", $release_date_str);
@@ -53,7 +58,6 @@ try {
         // productsテーブルにoverview(あらすじ)がない場合は固定文言を表示
         $overview    = $row['overview'] ?? '商品説明がありません。';
         
-        // productsテーブルにある情報
         $publisher_name = $row['publisher'] ?? '-';
         $label_name     = $row['label'] ?? '-';
         $pages          = $row['pages'] ?? '-';
@@ -145,7 +149,9 @@ try {
                 <input type="hidden" name="author_name" value="<?= htmlspecialchars($author_name) ?>">
                 <input type="hidden" name="price" value="<?= htmlspecialchars($price) ?>">
 
-                <?php if(isset($_SESSION['user'])){ ?>
+                <?php 
+                if(isset($_SESSION['user'])){ 
+                ?>
                     <div class="action-buttons">
                         <button type="submit" class="add-to-cart-btn">カートに入れる</button>
                     </div>
@@ -156,8 +162,10 @@ try {
                 <?php } ?>
                 </form>
 
-                <?php if(isset($_SESSION['user'])){ ?>
-                    <form action="" method="post" onsubmit="prepareFavorite(this);">
+                <?php 
+                if(isset($_SESSION['user'])){ 
+                ?>
+                    <form action="g8-2_favorite_insert.php" method="post" onsubmit="prepareFavorite(this);">
                         <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
                         <div class="action-buttons">
                             <button type="submit" class="add-to-favorite-btn">お気に入りに追加する</button>
