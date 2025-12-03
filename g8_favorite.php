@@ -40,9 +40,151 @@ try {
 <title>お気に入り - BOOK ON</title>
 <link rel="stylesheet" href="css/g8.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+    /* 全体のレイアウト調整 */
+    .fav-list {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    /* 商品カード（行） */
+    .fav-item {
+        display: flex;
+        align-items: center;
+        border: 1px solid #eee; /* 枠線を薄くつける */
+        border-radius: 8px;     /* 角を少し丸く */
+        padding: 15px;
+        margin-bottom: 15px;    /* 商品ごとの間隔 */
+        background-color: #fff;
+        transition: all 0.2s;   /* 動きをなめらかに */
+    }
+
+    /* 選択されたときのスタイル（青い枠） */
+    .fav-item.selected {
+        border: 2px solid #5d5fef;
+        background-color: #fbfbff;
+    }
+
+    /* チェックボックスエリア */
+    .fav-check {
+        width: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    /* ★重要: チェックボックスを強制的に表示させるスタイル */
+    input[type="checkbox"].force-visible {
+        appearance: auto !important;     /* ブラウザ標準の見た目に戻す */
+        -webkit-appearance: auto !important;
+        display: inline-block !important; /* 非表示設定を解除 */
+        opacity: 1 !important;            /* 透明度解除 */
+        width: 20px !important;           /* サイズ指定 */
+        height: 20px !important;
+        cursor: pointer;
+    }
+
+    /* 画像エリア */
+    .fav-image {
+        width: 100px;
+        margin-right: 20px;
+        flex-shrink: 0;
+    }
+    .fav-image img {
+        width: 100%;
+        height: auto;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    /* 詳細情報エリア */
+    .fav-details {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* タイトル */
+    .fav-title a {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+    }
+
+    /* 価格 */
+    .fav-price {
+        font-size: 18px;
+        color: #d00;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+    .fav-price .tax {
+        font-size: 12px;
+        color: #666;
+        font-weight: normal;
+    }
+
+    /* 削除ボタン */
+    .fav-delete-area {
+        margin-left: 15px;
+        text-align: center;
+        min-width: 50px;
+    }
+    .btn-delete {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #333;
+        text-decoration: none;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    .btn-delete i {
+        font-size: 24px;
+        margin-bottom: 5px;
+        color: #555;
+    }
+    .btn-delete:hover i {
+        color: #d00;
+    }
+
+    /* 下部のアクションエリア（固定を解除） */
+    .bottom-action-area {
+        max-width: 800px;
+        margin: 30px auto 60px auto; /* 上に30px、下に60pxの余白 */
+        text-align: center;
+        padding: 20px;
+        border-top: 1px solid #ddd;
+    }
+    .btn-add-cart {
+        background-color: #5d5fef;
+        color: white;
+        border: none;
+        padding: 15px 60px;
+        font-size: 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(93, 95, 239, 0.3);
+    }
+    .btn-add-cart:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+    }
+    .selection-msg {
+        margin-bottom: 15px;
+        font-weight: bold;
+        font-size: 16px;
+    }
+</style>
 </head>
 <body>
 <?php include 'common/header.php'; ?>
+
 <main class="favorite-main">
 <h2 class="page-title">お気に入り</h2>
 
