@@ -49,6 +49,28 @@ try {
         $update->execute();
     }
 
+    // カートの内容を再取得(unsetで削除された商品を除外)
+    $cart = $_SESSION['product'] ?? [];
+
+    // カート内の全商品がDBに存在するか確認
+    foreach ($cart as $id => $p) {
+        $product_id = (int)$id;
+
+        $check = $pdo->prepare("SELECT product_id FROM products WHERE product_id = :id");
+        $check->bindValue(':id', $id, PDO::PARAM_INT);
+        $check->execute();
+
+        if ($check->fetchColumn() === false) {
+            // 商品が存在しない場合は削除
+            $sub = $p['price'] * $p['count'];
+            $_SESSION['order']['total_price'] -= $sub;
+            unset($_SESSION['product'][$id]);
+        }
+    }
+
+    // 再度カート内容を取得
+    $cart = $_SESSION['product'] ?? [];
+
     // $_SESSIONのproductが無い場合は購入処理を行わない
     if(!empty($_SESSION['product'])) {
 
@@ -87,12 +109,14 @@ try {
 
         // order_itemsテーブルへの挿入
         foreach($_SESSION['product'] as $id => $product) {
+            $product_id = (int)$id;
+
             $sql = "INSERT INTO order_items VALUES (null, :order_id, :product_id, :quantity, :price, :format_id)";
 
             $stmt = $pdo->prepare($sql);
 
             $stmt->bindValue(':order_id', $order_id, PDO::PARAM_INT);
-            $stmt->bindValue(':product_id', htmlspecialchars($id), PDO::PARAM_INT);
+            $stmt->bindValue(':product_id', $product_id, PDO::PARAM_INT);
             $stmt->bindValue(':quantity', htmlspecialchars($product['count']), PDO::PARAM_INT);
             $stmt->bindValue(':price', htmlspecialchars($product['price']), PDO::PARAM_INT);
             $stmt->bindValue(':format_id', htmlspecialchars($product['format_id']), PDO::PARAM_INT);
