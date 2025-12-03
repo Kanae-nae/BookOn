@@ -162,7 +162,7 @@
                         <span>日</span>
                     </div>
                 </div>
-                <?php require "common/address.html"; ?>
+                <?php require "common/address.php"; ?>
             </section>
 
             <section class="form-section email-delivery-section">

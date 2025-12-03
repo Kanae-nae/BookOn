@@ -285,3 +285,29 @@ body {
     /* 上の要素との間に隙間を確保 */
     padding-top: 10px; 
 }
+
+/* 星の画像 */
+.rating-display {
+    display: flex;
+    align-items: center; /* 縦方向中央揃え */
+    gap: 5px; /* 画像とスコアの間隔 */
+    margin-bottom: 8px;
+}
+
+.rating-display .rating {
+    width: 20%;
+    margin: auto 0px;
+    margin-top: 3px;
+}
+
+.rating-display .rating-score {
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+/* 星の画像(スマホ用) */
+@media screen and (max-width: 480px) {
+    .rating-display .rating {
+        width: 40%;
+    }
+}
