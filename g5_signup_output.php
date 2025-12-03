@@ -35,7 +35,7 @@ try {
     if(empty($stmt->fetchAll())){
         // 重複が無かった場合
         // 初期値の設定
-        $icon_url = 'image/icon/default';
+        $icon_url = 'image/icon/default.png';
         $self_introduction = '';
         $review_public = 1;
         $order_public = 1;

@@ -72,14 +72,10 @@ try {
                 <!-- 星の描画 -->
                 <?php
                 // 星の画像を表示する
-                $rating = floatval($row['rating']);
-                $rating = round($rating * 2) / 2;  // ★ 0.5刻みに正規化
-
-                $rating_image = 'image/rating/' . str_replace('.', '_', $rating) . '.png';
-                $rating_num = $rating;
+                $rating_image = 'image/rating/' . str_replace('.', '_',$row['rating']) . '.png';
                 ?>
                 <div>
-                    <img src="<?= $rating_image ?>" alt="<?= $rating_num ?>" class="rating">
+                    <img src="<?= $rating_image ?>" alt="<?= $row['rating'] ?>" class="rating">
                 </div>
                 <p class="review-text">
                     鑑賞日：<?= $view_date ?>
