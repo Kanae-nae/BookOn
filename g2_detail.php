@@ -55,6 +55,7 @@ try {
         // 変数セット
         $author_name = $row['author_name'] ?? '作者不明';
         $genre_name  = $row['genre_name'] ?? '-';
+        $series_name  = $row['series_name'] ?? '-';
         // productsテーブルにoverview(あらすじ)がない場合は固定文言を表示
         $overview    = $row['overview'] ?? '商品説明がありません。';
         
@@ -64,6 +65,23 @@ try {
         $price          = $row['price'];
         $stocks         = $row['stocks'];
         $img_url        = $row['product_img_url'];
+
+        // レビュー全体の星の数と件数の算出
+        $sql = "SELECT AVG(rating) AS avg_rating, COUNT(*) AS cnt
+        FROM review
+        WHERE product_id = :product_id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':product_id', $_GET['id'], PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $avg_rating = floatval($row['avg_rating']);
+        $avg_rating = round($avg_rating * 2) / 2;  // ★ 0.5刻みに正規化
+
+        $ratingNum = isset($avg_rating) && $avg_rating !== null
+        ? number_format($avg_rating, 1) : 0.0;
+        $ratingCount = isset($row['cnt']) ? $row['cnt'] : 0;
 ?>
 
 <main>
@@ -77,12 +95,17 @@ try {
 
         <h1 class="product-title"><?= htmlspecialchars($product_name) ?></h1>
         
-        <div class="product-author"><a href="#"><?= htmlspecialchars($author_name) ?></a></div>
+        <div class="product-author"><a href="g3_search.php?keyword=<?= $author_name ?>">
+            <?= htmlspecialchars($author_name) ?>
+        </a></div>
         
-        <div class="rating">
-            <span class="stars">★★★★☆</span>
-            <span class="score">4.0</span>
-            <span class="review-count">(5件)</span>
+        <div class="rating-display">
+            <a href="g6_review.php?id=<?= $_GET['id'] ?>">
+                <img src="<?= 'image/rating/' . str_replace('.', '_', $ratingNum) . '.png' ?>"
+                alt="<?= $ratingNum ?>" class="rating"/>
+                <span class="score"><?= $ratingNum ?></span>
+                <span class="review-count">(<?= $ratingCount ?>件)</span>
+            </a>
         </div>
 
         <div class="product-content">
@@ -191,23 +214,33 @@ try {
                 </tr>
                 <tr>
                     <th>作者</th>
-                    <td><?= htmlspecialchars($author_name) ?></td>
+                    <td><a href="g3_search.php?keyword=<?= $author_name ?>">
+                        <?= htmlspecialchars($author_name) ?>
+                    </a></td>
                 </tr>
                 <tr>
                     <th>シリーズ</th>
-                    <td><?= htmlspecialchars($row['series_name']) ?></td>
+                    <td><a href="g3_search.php?keyword=<?= $series_name ?>">
+                        <?= htmlspecialchars($series_name) ?>
+                    </a></td>
                 </tr>
                 <tr>
                     <th>レーベル</th>
-                    <td><?= htmlspecialchars($label_name) ?></td>
+                    <td><a href="g3_search.php?keyword=<?= $label_name ?>">
+                        <?= htmlspecialchars($label_name) ?>
+                    </a></td>
                 </tr>
                 <tr>
                     <th>出版社</th>
-                    <td><?= htmlspecialchars($publisher_name) ?></td>
+                    <td><a href="g3_search.php?keyword=<?= $publisher_name ?>">
+                        <?= htmlspecialchars($publisher_name) ?>
+                    </a></td>
                 </tr>
                 <tr>
                     <th>ジャンル</th>
-                    <td><?= htmlspecialchars($genre_name) ?></td>
+                    <td><a href="g3_search.php?keyword=<?= $genre_name ?>">
+                        <?= htmlspecialchars($genre_name) ?>
+                    </a></td>
                 </tr>
                 <tr>
                     <th>ページ数</th>

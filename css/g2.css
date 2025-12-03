@@ -8,6 +8,15 @@
     padding: 0 15px 80px 15px;
 }
 
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 /* 戻るボタン */
 .back-link {
     margin-bottom: 10px;
@@ -50,19 +59,19 @@
     margin-bottom: 10px;
 }
 
-.product-author a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.product-author a:hover {
-    text-decoration: underline;
-}
-
 .rating {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+}
+
+.rating a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.rating a:hover {
+    text-decoration: underline;
 }
 
 .rating .stars {
@@ -377,6 +386,24 @@ hr {
     cursor: not-allowed !important;
 }
 
+/* 星の画像 */
+.rating-display {
+    margin-bottom: 8px;
+    display: flex;
+}
+
+.rating-display a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rating-display .rating {
+    width: 18%;
+    margin: auto 0px;
+    margin-top: 3px;
+}
+
 /* スマートフォン対応 (768px以下) */
 @media (max-width: 768px) {
 
@@ -450,5 +477,10 @@ hr {
 
     .price-display .tax {
         font-size: 0.8em;
+    }
+
+    /* 星の画像(スマホ用) */
+    .rating-display .rating {
+        width: 25%;
     }
 }
