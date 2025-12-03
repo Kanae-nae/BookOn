@@ -15,7 +15,8 @@ try {
     $pdo = new PDO($connect, USER, PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // productsテーブルを基準に、authorとgenreを結合して取得
+    // ★修正★: productsテーブルを基準に、authorとgenreを結合して取得
+    // ※seriesテーブルは使わず、productsにある author_id, genre_id, series_name を使います
     $sql = 'SELECT 
                 products.*, 
                 genre.genre_name, 
@@ -33,7 +34,8 @@ try {
     if($row) {
         // --- データ整形エリア ---
 
-        // 商品名の作成
+        // ★修正★ 商品名の作成 (作品名 + 半角スペース + 巻数 + "巻" + " | " + 出版社)
+        // 表示例: チェンソーマン 22巻 | 集英社
         $publisher_str = $row['publisher'] ?? '';
         $product_name = $row['series_name'] . " " . $row['volume_number'] . "巻 | " . $publisher_str;
 
@@ -53,6 +55,7 @@ try {
         // 変数セット
         $author_name = $row['author_name'] ?? '作者不明';
         $genre_name  = $row['genre_name'] ?? '-';
+        // productsテーブルにoverview(あらすじ)がない場合は固定文言を表示
         $overview    = $row['overview'] ?? '商品説明がありません。';
         
         $publisher_name = $row['publisher'] ?? '-';

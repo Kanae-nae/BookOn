@@ -1,7 +1,8 @@
-<?php
-session_start();
+<?php session_start();
 $view = isset($_GET['view']) ? $_GET['view'] : 'review';
+require 'common/db-connect.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -23,74 +24,155 @@ $view = isset($_GET['view']) ? $_GET['view'] : 'review';
 </head>
 
 <body>
-    <?php include("common/header.php"); ?>
+    <header>
+        <div class="logo">
+            <a href="index.php">
+                <img src="image/logo.png" alt="BOOK ON Logo" style="height: 40px;">
+            </a>
+        </div>
+
+        <?php if(isset($_SESSION['user'])){ ?>
+            <!-- ログイン時の処理(ログアウト) -->
+            <a href="common/logout.php" class="logout-btn">
+                <span>[→</span>
+                <span>
+                    ログアウト
+                </span>
+            </a>
+        <?php } else { ?>
+            <!-- ログアウト時の処理(ログイン) -->
+            <a href="g4_login_input.php" class="login-btn">
+                <span>→]</span>
+                <span>
+                    会員登録<br>ログイン
+                </span>
+            </a>
+        <?php } ?>
+    </header>
 
     <main>
-        <!-- ===============================
-             プロフィールセクション
-        =============================== -->
-        <section class="profile">
-            <div class="profile-container">
-                <div class="profile-top">
-                    <img src="image/sample_user.png" alt="ユーザーアイコン" class="profile-icon">
+        <!-- ログイン時のみプロフィールを取得、表示 -->
+        <?php if (isset($_SESSION['user'])): ?>
+            <?php
+            // レビューの数と購入履歴の数をカウントする
+            try {
+            // pdo、SQL文、パラメータを受け取って処理する関数(prepare→executeを行う)
+            function getSql($pdo, $sql, $params = []) {
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($params);
+                return $stmt->fetchColumn();
+            }
 
-                    <div class="profile-info">
-                        <div class="profile-header">
-                            <h2 class="profile-name">kanae</h2>
-                            <button class="btn-profile-edit">会員情報を変更</button>
-                        </div>
+            // データベースに渡すSQLとパラメータを定義する関数(これをgetSqlに渡す)
+            function countReview($pdo) {
+                return getSql($pdo, "SELECT COUNT(*) FROM review WHERE user_id = :user_id",
+                    [':user_id' => $_SESSION['user']['user_id']]
+                );
+            }
 
-                        <div class="profile-stats">
-                            <div><span>4</span><span>レビュー</span></div>
-                            <div><span>5</span><span>購入履歴</span></div>
+            function countOrders($pdo) {
+                return getSql($pdo, "SELECT COUNT(*) FROM orders WHERE user_id = :user_id",
+                    [':user_id' => $_SESSION['user']['user_id']]
+                );
+            }
+
+            // ↑の処理を呼び出して変数に代入
+            $pdo = new PDO($connect, USER, PASS);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $review_count = countReview($pdo);
+            $orders_count = countOrders($pdo);
+
+            } catch(PDOException $e) {
+            echo '<p>データベースエラーが発生しました。</p>';
+            }
+
+            // 自己紹介の処理(未記入の場合は未記入と表示する)
+            $self_introduction = !empty($_SESSION['user']['self_introduction']) ? 
+            $_SESSION['user']['self_introduction'] : "(自己紹介未記入)";
+            ?>
+
+            <!-- ===============================
+                プロフィールセクション
+            =============================== -->
+            <section class="profile">
+                <div class="profile-container">
+                    <div class="profile-top">
+                        <img src="<?= $_SESSION['user']['icon_url'] ?>" alt="ユーザーアイコン" class="profile-icon">
+
+                        <div class="profile-info">
+                            <div class="profile-header">
+                                <h2 class="profile-name"><?= $_SESSION['user']['user_name'] ?></h2>
+                                <button class="btn-profile-edit">会員情報を変更</button>
+                            </div>
+
+                            <div class="profile-stats">
+                                <div><span><?= $review_count ?></span><span>レビュー</span></div>
+                                <div><span><?= $orders_count ?></span><span>購入履歴</span></div>
+                            </div>
                         </div>
                     </div>
+                    <p class="profile-comment">
+                        <?= $self_introduction ?>
+                    </p>
                 </div>
-                <p class="profile-comment">
-                    バトル漫画が好き！最近はチェンソーマンにめちゃくちゃハマってます！
-                </p>
+            </section>
+
+            <!-- ===============================
+                レビュー・購入履歴 切り替え
+            =============================== -->
+            <div class="switch-btns">
+                <a href="?view=review" class="switch-btn <?php echo ($view === 'review') ? 'active' : ''; ?>">
+                    <i class="fa-solid fa-pen"></i> レビュー
+                </a>
+                <a href="?view=purchase" class="switch-btn <?php echo ($view === 'purchase') ? 'active' : ''; ?>">
+                    <i class="fa-solid fa-clock"></i> 購入履歴
+                </a>
             </div>
-        </section>
 
-        <!-- ===============================
-             レビュー・購入履歴 切り替え
-        =============================== -->
-        <div class="switch-btns">
-            <a href="?view=review" class="switch-btn <?php echo ($view === 'review') ? 'active' : ''; ?>">
-                <i class="fa-solid fa-pen"></i> レビュー
-            </a>
-            <a href="?view=purchase" class="switch-btn <?php echo ($view === 'purchase') ? 'active' : ''; ?>">
-                <i class="fa-solid fa-clock"></i> 購入履歴
-            </a>
-        </div>
+            <!-- ===============================
+                コンテンツ切り替え
+            =============================== -->
+            <section class="mypage-content">
+                <?php
+                    if ($view === 'review') {
+                        include("common/mypage_review.php");
+                    } else {
+                        include("common/mypage_purchase.php");
+                    }
+                ?>
+            </section>
 
-        <!-- ===============================
-             コンテンツ切り替え
-        =============================== -->
-        <section class="mypage-content">
-            <?php
-                if ($view === 'review') {
-                    include("common/mypage_review.php");
-                } else {
-                    include("common/mypage_purchase.php");
-                }
-            ?>
-        </section>
+            <!-- ===============================
+                並び替えボタン（スマホ対応）
+            =============================== -->
+            <?php if ($view === 'review'): ?>
+                <div class="sort-dropdown">
+                    <button id="sort-btn" class="sort-button">
+                        <i class="fa-solid fa-arrow-down-short-wide"></i>
+                    </button>
+                    <div id="sort-options" class="dropdown-content">
+                        <a href="?view=review&sort=new">投稿日：新しい順</a>
+                        <a href="?view=review&sort=old">投稿日：古い順</a>
+                        <a href="?view=review&sort=high">評価：高い順</a>
+                        <a href="?view=review&sort=low">評価：低い順</a>
+                    </div>
+                </div>
+            <?php elseif ($view === 'purchase'): ?>
+                <div class="sort-dropdown">
+                    <button id="sort-btn" class="sort-button">
+                        <i class="fa-solid fa-arrow-down-short-wide"></i>
+                    </button>
+                    <div id="sort-options" class="dropdown-content">
+                        <a href="?view=purchase&sort=new">購入日：新しい順</a>
+                        <a href="?view=purchase&sort=old">購入日：古い順</a>
+                    </div>
+                </div>
+            <?php endif; ?>
 
-        <!-- ===============================
-             並び替えボタン（スマホ対応）
-        =============================== -->
-        <div class="sort-dropdown">
-            <button id="sort-btn" class="sort-button">
-                <i class="fa-solid fa-arrow-down-short-wide"></i>
-            </button>
-            <div id="sort-options" class="dropdown-content">
-                <a href="?view=review&sort=new">投稿日：新しい順</a>
-                <a href="?view=review&sort=old">投稿日：古い順</a>
-                <a href="?view=review&sort=high">評価：高い順</a>
-                <a href="?view=review&sort=low">評価：低い順</a>
-            </div>
-        </div>
+        <?php else: ?>
+            <p>マイページの利用にはログインが必要です。</p>
+        <?php endif; ?>
     </main>
 
     <?php include("common/menu.php"); ?>

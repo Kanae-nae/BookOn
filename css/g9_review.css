@@ -66,10 +66,8 @@
 
 /* 評価（★） */
 .rating {
-  color: #fbc02d;
-  font-size: 0.9em;
-  margin: 3px 0;
-  letter-spacing: 1px;
+  width: 6%;
+  margin-top: 5px;
 }
 
 /* レビュー本文 */
@@ -95,6 +93,13 @@
   padding: 20px 0;
 }
 
+/* タブレット用 (481px〜1024px) */
+@media screen and (max-width: 1024px) {
+  .rating {
+    width: 10%;
+  }
+}
+
 /* スマホ対応 */
 @media screen and (max-width: 480px) {
   .review-card {
@@ -113,5 +118,9 @@
 
   .review-text {
     font-size: 0.85em;
+  }
+
+  .rating {
+    width: 35%;
   }
 }
