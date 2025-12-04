@@ -7,7 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOOK ON</title>
+    <!-- ページ名はそれぞれのページのスクリプトを読み込んで実装 -->
+    <title><?php echo !empty($GLOBALS['page_title']) ?
+    $GLOBALS['page_title'] : 'BOOK ON'; ?></title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cart.css">
     <link rel="stylesheet" href="css/favorite.css">
@@ -37,13 +39,5 @@
                 会員登録<br>ログイン
             </span>
         </a>
-
-        <!-- ログアウトボタンの確認用(普段はコメントアウト) -->
-        <!-- <a href="" class="logout-btn">
-            <span>[→</span>
-            <span>
-                ログアウト
-            </span>
-        </a> -->
     <?php } ?>
 </header>

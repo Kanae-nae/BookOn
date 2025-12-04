@@ -7,6 +7,7 @@ require 'common/header.php';
 require 'common/db-connect.php'; 
 ?>
 
+<script>document.title = '商品詳細 - BOOK ON';</script>
 <link rel="stylesheet" href="css/g2.css">
 
 <?php
@@ -19,9 +20,11 @@ try {
     // ※seriesテーブルは使わず、productsにある author_id, genre_id, series_name を使います
     $sql = 'SELECT 
                 products.*, 
+                series.*,
                 genre.genre_name, 
                 author.author_name 
             FROM products
+            JOIN series ON products.series_id = series.series_id
             LEFT JOIN genre ON products.genre_id = genre.genre_id
             LEFT JOIN author ON products.author_id = author.author_id
             WHERE products.product_id = :product_id';

@@ -1,4 +1,5 @@
 <?php require 'common/header_detail.php'; ?>
+<script>document.title = '決済情報 - BOOK ON';</script>
 <!-- 決済情報画面(G13) -->
 <main>
     <button id="toSame" class="btn back-btn">＜　戻る</button>

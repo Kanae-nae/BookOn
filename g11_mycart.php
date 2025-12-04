@@ -1,5 +1,6 @@
 <?php require 'common/header.php'; ?>
 <!-- マイカート画面(G11) -->
+<script>document.title = 'マイカート - BOOK ON';</script>
 <link rel="stylesheet" href="css/favorite.css">
 <link rel="stylesheet" href="css/detail.css">
 

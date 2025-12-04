@@ -1,4 +1,5 @@
 <?php require 'common/header_detail.php'; ?>
+<script>document.title = '注文完了 - BOOK ON';</script>
 <!-- 注文完了画面(G15) -->
 <link rel="stylesheet" href="css/favorite.css">
 <?php require 'common/db-connect.php'; ?>

@@ -1,5 +1,6 @@
 <?php require 'common/header_detail.php'; ?>
 <link rel="stylesheet" href="css/detail_address.css">
+<script>document.title = '配送情報 - BOOK ON';</script>
 <!-- 配送情報画面(G12) -->
 <?php require 'common/prefectures.php'; ?>
 

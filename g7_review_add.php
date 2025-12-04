@@ -1,4 +1,9 @@
-<?php require 'common/header.php';
+<?php require 'common/header.php'; ?>
+
+<script>document.title = 'レビュー登録 - BOOK ON';</script>
+<link rel="stylesheet" href="css/g7.css">
+
+<?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require 'common/db-connect.php';
@@ -39,16 +44,6 @@ try {
         // 商品名の作成 (シリーズ名 + 半角スペース + 巻数)
         $product_name = $row['series_name'] . " " . strval($row['volume_number']) . "巻";
 ?>
-
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>レビュー登録</title>
-    <link rel="stylesheet" href="css/g7.css">
-</head>
-<body>
 
 <div class="review-container">
     <div class="review-header">

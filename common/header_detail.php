@@ -7,7 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOOK ON</title>
+    <title><?php echo !empty($GLOBALS['page_title']) ?
+    $GLOBALS['page_title'] : 'BOOK ON'; ?></title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/detail.css">
 </head>

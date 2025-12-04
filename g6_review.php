@@ -1,6 +1,7 @@
 <?php require 'common/header.php'; ?>
 <?php require 'common/db-connect.php'; ?>
 
+<script>document.title = 'レビュー詳細 - BOOK ON';</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/g6.css">
 

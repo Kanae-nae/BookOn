@@ -1,54 +1,18 @@
-<?php session_start();
+<?php
+require 'common/header.php';
 $view = isset($_GET['view']) ? $_GET['view'] : 'review';
 require 'common/db-connect.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マイページ | BOOK ON</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/g9.css">
-    <?php if ($view === 'review'): ?>
-        <link rel="stylesheet" href="css/g9_review.css">
-    <?php else: ?>
-        <link rel="stylesheet" href="css/g9_purchase.css">
-    <?php endif; ?>
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
-
-<body>
-    <header>
-        <div class="logo">
-            <a href="index.php">
-                <img src="image/logo.png" alt="BOOK ON Logo" style="height: 40px;">
-            </a>
-        </div>
-
-        <?php if(isset($_SESSION['user'])){ ?>
-            <!-- ログイン時の処理(ログアウト) -->
-            <a href="common/logout.php" class="logout-btn">
-                <span>[→</span>
-                <span>
-                    ログアウト
-                </span>
-            </a>
-        <?php } else { ?>
-            <!-- ログアウト時の処理(ログイン) -->
-            <a href="g4_login_input.php" class="login-btn">
-                <span>→]</span>
-                <span>
-                    会員登録<br>ログイン
-                </span>
-            </a>
-        <?php } ?>
-    </header>
+<script>document.title = 'マイページ - BOOK ON';</script>
+<link rel="stylesheet" href="css/g9.css">
+<?php if ($view === 'review'): ?>
+    <link rel="stylesheet" href="css/g9_review.css">
+<?php else: ?>
+    <link rel="stylesheet" href="css/g9_purchase.css">
+<?php endif; ?>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <main>
         <!-- ログイン時のみプロフィールを取得、表示 -->
@@ -103,7 +67,7 @@ require 'common/db-connect.php';
                         <div class="profile-info">
                             <div class="profile-header">
                                 <h2 class="profile-name"><?= $_SESSION['user']['user_name'] ?></h2>
-                                <button class="btn-profile-edit">会員情報を変更</button>
+                                <button id="toSame" class="btn-profile-edit">会員情報を変更</button>
                             </div>
 
                             <div class="profile-stats">
@@ -179,6 +143,12 @@ require 'common/db-connect.php';
     <?php include("common/footer.php"); ?>
 
     <script>
+        // 違うページに飛ばす
+        document.getElementById('toSame').addEventListener('click', function () {
+            // 相対パスや絶対URLを指定できます
+            location.href = 'g10_mypage_update.php';
+        });
+
         // スマホでもドロップダウン操作できるよう最小限に留めたJS
         const sortBtn = document.getElementById("sort-btn");
         const sortOptions = document.getElementById("sort-options");
