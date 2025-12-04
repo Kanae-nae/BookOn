@@ -58,7 +58,8 @@ try {
         $series_name  = $row['series_name'] ?? '-';
         // productsテーブルにoverview(あらすじ)がない場合は固定文言を表示
         $overview    = $row['overview'] ?? '商品説明がありません。';
-        
+
+        $product_id = $row['product_id'];
         $publisher_name = $row['publisher'] ?? '-';
         $label_name     = $row['label'] ?? '-';
         $pages          = $row['pages'] ?? '-';
@@ -166,7 +167,7 @@ try {
                         </div>
                     </div>
 
-                <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
+                <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
                 <input type="hidden" name="product_img_url" value="<?= htmlspecialchars($img_url) ?>">
                 <input type="hidden" name="product_name" value="<?= htmlspecialchars($product_name) ?>">
                 <input type="hidden" name="author_name" value="<?= htmlspecialchars($author_name) ?>">
@@ -189,7 +190,7 @@ try {
                 if(isset($_SESSION['user'])){ 
                 ?>
                     <form action="g8-2_favorite_insert.php" method="post" onsubmit="prepareFavorite(this);">
-                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
+                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
                         <div class="action-buttons">
                             <button type="submit" class="add-to-favorite-btn">お気に入りに追加する</button>
                         </div>

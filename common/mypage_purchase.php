@@ -16,7 +16,7 @@ try {
     JOIN order_items ON orders.order_id = order_items.order_id
     JOIN products ON order_items.product_id = products.product_id
     JOIN series ON products.series_id = series.series_id
-    LEFT JOIN author ON series.author_id = author.author_id
+    LEFT JOIN author ON products.author_id = author.author_id
     WHERE orders.user_id = :user_id
     ORDER BY $order";
 
@@ -40,6 +40,16 @@ try {
     <div class="purchase-list">
         <?php
         foreach($result as $row) {
+            // 既にレビュー登録しているかを取得
+            $sql = "SELECT * FROM review
+            WHERE user_id = :user_id AND product_id = :product_id";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':user_id', $_SESSION['user']['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':product_id', $row['product_id'], PDO::PARAM_INT);
+            $stmt->execute();
+            $review_count = $stmt->fetch(PDO::FETCH_ASSOC);
+
             // 商品名の作成
             $product_name = $row['series_name'] . "（" . strval($row['volume_number']) . "巻）";
 
@@ -65,9 +75,16 @@ try {
                     <button class="btn-detail" onclick="location.href='g2_detail.php?id=<?= $row['product_id']; ?>'">
                         詳細
                     </button>
-                    <button class="btn-review" onclick="location.href='g7_review_add.php?id=<?= $row['product_id']; ?>'">
-                        レビューを書く
-                    </button>
+                    <?php if(empty($review_count)): ?>
+                        <button class="btn-review" onclick="location.href='g7_review_add.php?id=<?= $row['product_id']; ?>'">
+                            レビューを書く
+                        </button>
+                    <?php else: ?>
+                        <!-- レビュー投稿済み -->
+                        <button class="btn-review disabled">
+                            レビューを書く
+                        </button>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
