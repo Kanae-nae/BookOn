@@ -1,32 +1,39 @@
 <?php
+// セッション開始
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-
-session_start();
-
-// require_onceに変更（もしheader.phpでも読み込んでいてもエラーにならないように）
 require_once 'common/db-connect.php';
-// セッション確認（なければ1にする）
-$user_id = isset($_SESSION['customer']['user_id']) ? $_SESSION['customer']['user_id'] : 1;
+
+// ログイン確認
+$user_id = isset($_SESSION['user']['user_id']) ? $_SESSION['user']['user_id'] : null;
+if ($user_id === null) $user_id = 0;
 
 // SQL作成
-$sql = "SELECT p.*, f.favorite_id 
+$sql = "SELECT 
+            f.favorite_id,
+            p.product_id,
+            p.series_name,
+            p.volume_number,
+            p.price,
+            p.product_img_url,
+            p.release_date,
+            p.publisher,
+            a.author_name 
         FROM favorite AS f
         JOIN products AS p ON f.product_id = p.product_id
+        LEFT JOIN author AS a ON p.author_id = a.author_id
         WHERE f.user_id = :id";
 
 try {
-    // db-connect.phpで定義された変数$connect, 定数USER, PASSを使用
     $pdo = new PDO($connect, USER, PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
-    
     $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 } catch (PDOException $e) {
-    // 接続エラーがあれば表示して終了
     echo "DB Error: " . $e->getMessage();
     exit();
 }
@@ -186,68 +193,108 @@ try {
 <?php include 'common/header.php'; ?>
 
 <main class="favorite-main">
-<h2 class="page-title">お気に入り</h2>
+    <h2 class="page-title" style="text-align:center; margin: 30px 0;">お気に入り</h2>
 
-<p style="font-size:10px; color:#ccc;">User ID: <?= htmlspecialchars($user_id) ?></p>
+    <form action="cart/cart_insert.php" method="post"> 
+    
+    <div class="fav-list">
 
-<form action="cart_insert.php" method="post"> 
-<div class="fav-list">
-
-    <?php if (empty($favorites)): ?>
-        <p style="text-align:center; padding: 20px;">お気に入りに登録された商品はありません。</p>
-    <?php else: ?>
-        
-        <?php foreach ($favorites as $row): ?>
-        <div class="fav-item">
-            <div class="fav-check">
-                <input type="checkbox" name="select_products[]" value="<?= $row['product_id'] ?>" id="check<?= $row['product_id'] ?>" class="custom-checkbox">
-                <label for="check<?= $row['product_id'] ?>" class="check-label"></label>
+        <?php if (empty($favorites)): ?>
+            <div class="no-fav-msg" style="text-align:center; padding:40px;">
+                <p>お気に入りに登録された商品はありません。</p>
+                <a href="index.php" style="color:#007bff; text-decoration:underline;">買い物を続ける</a>
             </div>
-            <div class="fav-image">
-                <img src="<?= htmlspecialchars($row['product_img_url']) ?>" alt="<?= htmlspecialchars($row['series_name']) ?>" onerror="this.src='image/no_image.png'">
-            </div>
-            <div class="fav-details">
-                <div class="fav-title">
-                    <?= htmlspecialchars($row['series_name']) ?> <?= htmlspecialchars($row['volume_number']) ?>
-                </div>
+        <?php else: ?>
+            
+            <?php foreach ($favorites as $row): ?>
+            <?php 
+                $displayName = $row['series_name'] . ' ' . $row['volume_number'];
+                $displayAuthor = !empty($row['author_name']) ? $row['author_name'] : $row['publisher'];
+            ?>
+            
+            <div class="fav-item" id="row_<?= $row['product_id'] ?>">
                 
-                <div class="fav-author"><?= htmlspecialchars($row['publisher']) ?></div>
-                
-                <div class="fav-rating">
-                    <span class="stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                    </span>
-                    <span class="rating-text">4.0</span>
-                    <span class="review-count">(5件)</span>
+                <div class="fav-check">
+                    <input type="checkbox" name="product_id[]" value="<?= $row['product_id'] ?>" 
+                           class="force-visible product-check" 
+                           data-row-id="row_<?= $row['product_id'] ?>">
                 </div>
-                <div class="fav-meta">
-                    <span>シリーズ <a href="#" class="meta-link"><?= htmlspecialchars($row['series_name']) ?></a></span>
-                </div>
-                <div class="fav-date"><?= htmlspecialchars($row['release_date']) ?> 発売</div>
-                <div class="fav-type">電子書籍</div>
-                
-                <div class="fav-footer">
-                    <div class="fav-price"><?= number_format($row['price']) ?>円 <span class="price-tax">(税込)</span></div>
-                    
-                    <a href="favorite_delete.php?id=<?= $row['favorite_id'] ?>" class="fav-delete" style="text-decoration:none; color:inherit;">
-                        <i class="far fa-trash-alt delete-icon"></i>
-                        <span class="delete-text">削除</span>
+
+                <div class="fav-image">
+                    <a href="g2_detail.php?id=<?= $row['product_id'] ?>">
+                        <img src="<?= htmlspecialchars($row['product_img_url']) ?>" alt="商品画像" onerror="this.src='image/no_image.png'">
                     </a>
                 </div>
-            </div>
-        </div>
-        <?php endforeach; ?>
 
+                <div class="fav-details">
+                    <div class="fav-title">
+                        <a href="g2_detail.php?id=<?= $row['product_id'] ?>"><?= htmlspecialchars($displayName) ?></a>
+                    </div>
+                    
+                    <div style="color:#666; font-size:14px; margin-top:5px;"><?= htmlspecialchars($displayAuthor) ?></div>
+                    
+                    <div class="fav-rating" style="color:#fcd53f; font-size:14px; margin: 5px 0;">
+                        ★★★★☆ <span style="color:#999;">4.0 (5件)</span>
+                    </div>
+
+                    <div style="font-size:12px; color:#666; line-height: 1.5;">
+                        シリーズ: <?= htmlspecialchars($row['series_name']) ?><br>
+                        ジャンル: バトル・アクション<br> 発売日: <?= htmlspecialchars($row['release_date']) ?><br>
+                        電子書籍
+                    </div>
+                    
+                    <div class="fav-price">
+                        <?= number_format($row['price']) ?>円 <span class="tax">(税込)</span>
+                    </div>
+                </div>
+
+                <div class="fav-delete-area">
+                    <a href="g8-3_favorite_delete.php?id=<?= $row['favorite_id'] ?>" class="btn-delete" onclick="return confirm('削除しますか？');">
+                        <i class="far fa-trash-alt"></i>
+                        <span>削除</span>
+                    </a>
+                </div>
+
+            </div>
+            <?php endforeach; ?>
+
+        <?php endif; ?>
+
+    </div>
+    
+    <?php if (!empty($favorites)): ?>
+    <div class="bottom-action-area">
+        <p class="selection-msg"><span id="select-count">0</span>件選択中</p>
+        <button type="submit" class="btn-add-cart">カートに入れる</button>
+    </div>
     <?php endif; ?>
 
-</div>
+    </form>
 </main>
 
-<div class="bottom-action-area">
-    <span class="selection-count">選択した商品を</span>
-    <button type="submit" class="btn-add-cart">カートに入れる</button>
-</div>
-</form>
+<script>
+    // チェックボックスの動きを制御するスクリプト
+    const checkboxes = document.querySelectorAll('.product-check');
+    const countSpan = document.getElementById('select-count');
+    
+    checkboxes.forEach(ch => {
+        ch.addEventListener('change', function() {
+            // 選択件数の更新
+            const count = document.querySelectorAll('.product-check:checked').length;
+            countSpan.textContent = count;
+
+            // 親要素(row)の枠線の色を変える
+            const rowId = this.getAttribute('data-row-id');
+            const rowElement = document.getElementById(rowId);
+            
+            if (this.checked) {
+                rowElement.classList.add('selected'); // 青枠をつける
+            } else {
+                rowElement.classList.remove('selected'); // 青枠を消す
+            }
+        });
+    });
+</script>
 
 <?php include 'common/menu.php'; ?>
 <?php include 'common/footer.php'; ?>
