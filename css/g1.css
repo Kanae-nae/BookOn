@@ -27,37 +27,33 @@ a {
 /* --------------------------------
  * 2. ヘッダー (共通パーツの補正)
  * -------------------------------- */
-.page-header {
-    position: fixed;
-    top: 0;
-    left: 0;
+
+/* 切り替え用スタイル */
+.ranking-list-wrapper {
+    display: none;
+}
+
+.ranking-list-wrapper.active-list {
+    display: block;
+}
+
+/* 本のタイトルのスタイル */
+.ranking-book-title {
+    font-size: 10px;
+    text-align: center;
+    margin-top: 5px;
+    color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     width: 100%;
-    height: 60px;
-    z-index: 100;
-    background-color: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 0 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
-.page-header .logo {
-    font-family: 'Arial Black', sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    color: #0056b3; 
-}
-.page-header .btn-register-login {
-    background-color: #0056b3; /* 濃い青 */
-    color: white;
-    padding: 8px 15px;
-    text-decoration: none;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+
+/* 画像の高さを固定して揃える */
+.ranking-book-cover img {
+    height: 140px;
+    width: 100%;
+    object-fit: cover;
 }
 
 /* --------------------------------
@@ -328,7 +324,7 @@ a {
  * ★追加：PC・タブレット表示用の調整 (600px以上)
  * 画面が広いとき、コンテンツを中央に寄せます
  * ================================================= */
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 1000px) {
     
     /* 1. 全体の背景をグレーにして、アプリっぽく見せる */
     body {
@@ -337,7 +333,6 @@ a {
 
     /* 2. ヘッダーとフッターを中央に固定 */
     .page-header, .bottom-nav {
-        max-width: 600px;
         left: 50%;
         transform: translateX(-50%); /* 中央配置 */
         right: auto;
@@ -347,10 +342,31 @@ a {
     /* 3. メインコンテンツを中央に寄せて白背景にする */
     /* .home-page-main はPHP側の <main class="home-page-main"> に対応 */
     .home-page-main {
-        max-width: 600px;
         margin: 0 auto;
         background-color: #ffffff;
         min-height: 100vh; /* 画面いっぱいの高さを確保 */
         box-shadow: 0 0 15px rgba(0,0,0,0.05); /* 左右に影 */
+    }
+
+    /* 4. 横スクロール要素の幅を明示的に設定 */
+    .horizontal-scroll,
+    .ranking-list,
+    .genre-tabs {
+        width: 100%;
+        /* 親要素の幅に合わせる */
+        max-width: 100%;
+        /* 親要素を超えないようにする */
+    }
+
+    /* バナーセクションの横スクロールエリア */
+    .banner-section {
+        max-width: 600px;
+        margin: 0 auto 30px auto;
+    }
+
+    /* ランキングセクション全体 */
+    .ranking-section {
+        max-width: 600px;
+        margin: 0 auto 30px auto;
     }
 }
