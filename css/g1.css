@@ -27,6 +27,38 @@ a {
 /* --------------------------------
  * 2. ヘッダー (共通パーツの補正)
  * -------------------------------- */
+.page-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 100;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.page-header .logo {
+    font-family: 'Arial Black', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #0056b3; 
+}
+.page-header .btn-register-login {
+    background-color: #0056b3; /* 濃い青 */
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
 /* --------------------------------
  * 3. バナーセクション (新刊特集)
@@ -289,4 +321,36 @@ a {
 }
 .bottom-nav .nav-item.active {
     color: #007bff;
+}
+
+
+/* =================================================
+ * ★追加：PC・タブレット表示用の調整 (600px以上)
+ * 画面が広いとき、コンテンツを中央に寄せます
+ * ================================================= */
+@media screen and (min-width: 600px) {
+    
+    /* 1. 全体の背景をグレーにして、アプリっぽく見せる */
+    body {
+        background-color: #e9ecef; 
+    }
+
+    /* 2. ヘッダーとフッターを中央に固定 */
+    .page-header, .bottom-nav {
+        max-width: 600px;
+        left: 50%;
+        transform: translateX(-50%); /* 中央配置 */
+        right: auto;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 少し影をつける */
+    }
+
+    /* 3. メインコンテンツを中央に寄せて白背景にする */
+    /* .home-page-main はPHP側の <main class="home-page-main"> に対応 */
+    .home-page-main {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        min-height: 100vh; /* 画面いっぱいの高さを確保 */
+        box-shadow: 0 0 15px rgba(0,0,0,0.05); /* 左右に影 */
+    }
 }
