@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レビュー削除 - BOOK ON</title>
+    <link rel="stylesheet" href="css/header_only.css">
+    <link rel="stylesheet" href="css/g4.css">
+</head>
+
+<body>
+
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -28,3 +39,5 @@ echo 'history.back();';
 echo '</script>';
 exit;
 ?>
+</body>
+</html>

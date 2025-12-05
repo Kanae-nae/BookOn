@@ -1,6 +1,15 @@
 <?php session_start(); ?>
 <!-- 会員情報変更画面(G10)の登録側 -->
 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会員情報変更 - BOOK ON</title>
+</head>
+<body>
+
 <?php require 'common/db-connect.php'; ?>
 <?php require 'common/prefectures.php'; ?>
 
@@ -159,3 +168,5 @@ echo 'location.href = ' . json_encode($url) . ';';
 echo '</script>';
 exit;
 ?>
+</body>
+</html>

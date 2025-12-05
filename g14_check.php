@@ -1,4 +1,5 @@
 <?php require 'common/header_detail.php'; ?>
+<script>document.title = '確認画面 - BOOK ON';</script>
 <!-- 注文確認画面(G14) -->
 <link rel="stylesheet" href="css/favorite.css">
 

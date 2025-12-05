@@ -7,6 +7,7 @@ require 'common/header.php';
 require 'common/db-connect.php'; 
 ?>
 
+<script>document.title = '商品詳細 - BOOK ON';</script>
 <link rel="stylesheet" href="css/g2.css">
 
 <?php
@@ -19,9 +20,11 @@ try {
     // ※seriesテーブルは使わず、productsにある author_id, genre_id, series_name を使います
     $sql = 'SELECT 
                 products.*, 
+                series.*,
                 genre.genre_name, 
                 author.author_name 
             FROM products
+            JOIN series ON products.series_id = series.series_id
             LEFT JOIN genre ON products.genre_id = genre.genre_id
             LEFT JOIN author ON products.author_id = author.author_id
             WHERE products.product_id = :product_id';
@@ -58,7 +61,8 @@ try {
         $series_name  = $row['series_name'] ?? '-';
         // productsテーブルにoverview(あらすじ)がない場合は固定文言を表示
         $overview    = $row['overview'] ?? '商品説明がありません。';
-        
+
+        $product_id = $row['product_id'];
         $publisher_name = $row['publisher'] ?? '-';
         $label_name     = $row['label'] ?? '-';
         $pages          = $row['pages'] ?? '-';
@@ -166,7 +170,7 @@ try {
                         </div>
                     </div>
 
-                <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
+                <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
                 <input type="hidden" name="product_img_url" value="<?= htmlspecialchars($img_url) ?>">
                 <input type="hidden" name="product_name" value="<?= htmlspecialchars($product_name) ?>">
                 <input type="hidden" name="author_name" value="<?= htmlspecialchars($author_name) ?>">
@@ -189,7 +193,7 @@ try {
                 if(isset($_SESSION['user'])){ 
                 ?>
                     <form action="g8-2_favorite_insert.php" method="post" onsubmit="prepareFavorite(this);">
-                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
+                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
                         <div class="action-buttons">
                             <button type="submit" class="add-to-favorite-btn">お気に入りに追加する</button>
                         </div>

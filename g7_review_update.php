@@ -1,4 +1,9 @@
-<?php require 'common/header.php';
+<?php require 'common/header.php'; ?>
+
+<script>document.title = 'レビュー更新 - BOOK ON';</script>
+<link rel="stylesheet" href="css/g7.css">
+
+<?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require 'common/db-connect.php';
@@ -45,16 +50,6 @@ try {
 
         $score = floatval($row['rating']);
 ?>
-
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>レビューの更新</title>
-    <link rel="stylesheet" href="css/g7.css">
-</head>
-<body>
 
 <div class="review-container">
     <div class="review-header">
@@ -127,7 +122,7 @@ try {
 
         <section class="review-content">
             <label for="review-text">レビュー内容（無記入でも投稿可）</label>
-            <textarea id="review-text" name="review-text" rows="5"></textarea>
+            <textarea id="review-text" name="review-text" rows="5"><?= $row['comment'] ?></textarea>
         </section>
 
         <button type="submit" class="submit-btn">登録する</button>

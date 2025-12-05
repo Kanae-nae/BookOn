@@ -1,8 +1,16 @@
 <?php session_start(); ?>
 <!-- ログイン画面(G4)の認証側 -->
 
-<?php require 'common/db-connect.php'; ?>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会員登録・ログイン - BOOK ON</title>
+</head>
+<body>
 
+<?php require 'common/db-connect.php'; ?>
 <?php
 try {
     $pdo = new PDO($connect, USER, PASS);
@@ -46,6 +54,8 @@ try {
 
     if (isset($_SESSION['user'])) {
         // ログインに成功した場合
+
+        // メッセージとURLの格納
         $msg = 'ログインに成功しました。';
         $url = 'index.php';
     } else {
@@ -78,3 +88,5 @@ echo 'location.href = ' . json_encode($url) . ';';
 echo '</script>';
 exit;
 ?>
+</body>
+</html>

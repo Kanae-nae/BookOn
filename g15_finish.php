@@ -1,4 +1,5 @@
 <?php require 'common/header_detail.php'; ?>
+<script>document.title = '注文完了 - BOOK ON';</script>
 <!-- 注文完了画面(G15) -->
 <link rel="stylesheet" href="css/favorite.css">
 <?php require 'common/db-connect.php'; ?>
@@ -20,10 +21,11 @@ try {
 
     // 在庫を減らす処理
     foreach ($cart as $id => $p) {
+        $product_id = (int)$id; // 明示的に整数型に変換
         if ($p['format_id'] != 2) continue; // 電子書籍は在庫処理なし
 
         $stmt = $pdo->prepare("SELECT stocks FROM products WHERE product_id = :id FOR UPDATE");
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $product_id, PDO::PARAM_INT);
         $stmt->execute();
         $stock = $stmt->fetchColumn();
 
@@ -40,12 +42,12 @@ try {
 
         if ($stock < $p['count']) {
             // 通常モードで在庫不足 → 例外で処理中断
-            throw new Exception("商品ID {$id} の在庫が不足しています。");
+            throw new Exception("商品ID {$product_id} の在庫が不足しています。");
         }
 
         $update = $pdo->prepare("UPDATE products SET stocks = stocks - :count WHERE product_id = :id");
         $update->bindValue(':count', $p['count'], PDO::PARAM_INT);
-        $update->bindValue(':id', $id, PDO::PARAM_INT);
+        $update->bindValue(':id', $product_id, PDO::PARAM_INT);
         $update->execute();
     }
 
@@ -54,10 +56,14 @@ try {
 
     // カート内の全商品がDBに存在するか確認
     foreach ($cart as $id => $p) {
-        $product_id = (int)$id;
+        $product_id = (int)$id; // 整数型にキャスト
+        if ($product_id === 0) { // 空キー等のガード
+            unset($_SESSION['product'][$id]);
+            continue;
+        }
 
         $check = $pdo->prepare("SELECT product_id FROM products WHERE product_id = :id");
-        $check->bindValue(':id', $id, PDO::PARAM_INT);
+        $check->bindValue(':id', $product_id, PDO::PARAM_INT);
         $check->execute();
 
         if ($check->fetchColumn() === false) {
@@ -162,10 +168,10 @@ unset($_SESSION['order']);
 </main>
 
 <script>
-// 違うページに飛ばす
-document.getElementById('toSame').addEventListener('click', function () {
-    location.href = 'index.php';
-});
+    // 違うページに飛ばす
+    document.getElementById('toSame').addEventListener('click', function () {
+        location.href = 'index.php';
+    });
 </script>
 
 <?php require 'common/footer.php'; ?>

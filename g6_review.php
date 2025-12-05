@@ -1,6 +1,7 @@
 <?php require 'common/header.php'; ?>
 <?php require 'common/db-connect.php'; ?>
 
+<script>document.title = 'レビュー詳細 - BOOK ON';</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/g6.css">
 
@@ -13,8 +14,8 @@ try {
     $sql = 'SELECT products.*, series.series_name, genre.genre_name, author.author_name 
     FROM products
     JOIN series ON products.series_id = series.series_id
-    LEFT JOIN genre ON series.genre_id = genre.genre_id
-    LEFT JOIN author ON series.author_id = author.author_id
+    LEFT JOIN genre ON products.genre_id = genre.genre_id
+    LEFT JOIN author ON products.author_id = author.author_id
     WHERE products.product_id = :product_id';
 
     $stmt = $pdo->prepare($sql);
@@ -286,13 +287,21 @@ try {
     </div>
 </div>
 
-<!-- 追加ボタンはログイン時のみ表示する -->
+<!-- 追加ボタンはログイン時＆未投稿時のみ表示する -->
 <?php if(isset($_SESSION['user'])): ?>
-    <a href="g7_review_add.php?id=<?= $_GET['id'] ?>" class="fab-add">
-        <i class="fas fa-plus"></i>
-    </a>
+    <?php if(empty($review_count)): ?>
+        <a href="g7_review_add.php?id=<?= $_GET['id'] ?>" class="fab-add">
+            <i class="fas fa-plus"></i>
+        </a>
+    <?php else: ?>
+        <!-- レビュー投稿済み -->
+        <div class="fab-add fab-add-logout" title="既にレビュー投稿済みです">
+            <i class="fas fa-plus"></i>
+        </div>
+    <?php endif; ?>
 <?php else: ?>
-    <div class="fab-add fab-add-logout">
+    <!-- 未ログインの場合 -->
+    <div class="fab-add fab-add-logout" title="ログインが必要です">
         <i class="fas fa-plus"></i>
     </div>
 <?php endif; ?>

@@ -31,7 +31,7 @@ foreach ($cart as $id => $p) {
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>在庫確認</title>
+    <title>在庫確認 - BOOK ON</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/detail.css">
     <script>
