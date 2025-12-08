@@ -116,6 +116,8 @@ a {
     flex: 0 0 90px; /* 幅固定 */
     display: flex;
     flex-direction: column;
+    justify-content: center; /* 追加：縦方向に中央揃え */
+    align-items: center; /* 追加：横方向に中央揃え */
 }
 .banner-book-item img {
     width: 100%;
@@ -324,14 +326,9 @@ a {
  * ★追加：PC・タブレット表示用の調整 (600px以上)
  * 画面が広いとき、コンテンツを中央に寄せます
  * ================================================= */
-@media screen and (min-width: 1000px) {
-    
-    /* 1. 全体の背景をグレーにして、アプリっぽく見せる */
-    body {
-        background-color: #e9ecef; 
-    }
+@media screen and (min-width: 600px) {
 
-    /* 2. ヘッダーとフッターを中央に固定 */
+    /* ヘッダーとフッターを中央に固定 */
     .page-header, .bottom-nav {
         left: 50%;
         transform: translateX(-50%); /* 中央配置 */
@@ -339,23 +336,9 @@ a {
         box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 少し影をつける */
     }
 
-    /* 3. メインコンテンツを中央に寄せて白背景にする */
-    /* .home-page-main はPHP側の <main class="home-page-main"> に対応 */
-    .home-page-main {
-        margin: 0 auto;
-        background-color: #ffffff;
-        min-height: 100vh; /* 画面いっぱいの高さを確保 */
-        box-shadow: 0 0 15px rgba(0,0,0,0.05); /* 左右に影 */
-    }
-
-    /* 4. 横スクロール要素の幅を明示的に設定 */
-    .horizontal-scroll,
-    .ranking-list,
-    .genre-tabs {
-        width: 100%;
-        /* 親要素の幅に合わせる */
-        max-width: 100%;
-        /* 親要素を超えないようにする */
+    /* セクションタイトルをタブの中央に揃える */
+    .section-title {
+        text-align: center;
     }
 
     /* バナーセクションの横スクロールエリア */
@@ -364,9 +347,33 @@ a {
         margin: 0 auto 30px auto;
     }
 
+    /* バナーの横スクロールを中央揃えにする */
+    .horizontal-scroll {
+        justify-content: center;
+        /* 中央揃え */
+        overflow-x: visible;
+        /* 横スクロールを無効化 */
+        gap: 15px;
+        /* 本同士の間隔 */
+    }
+
     /* ランキングセクション全体 */
     .ranking-section {
         max-width: 600px;
         margin: 0 auto 30px auto;
+    }
+
+    /* タブの横スクロールを無効化して1行表示にする */
+    .genre-tabs {
+        overflow-x: visible;
+        justify-content: center;
+        /* 中央揃えに変更 */
+        gap: 15px;
+        /* タブ間の間隔 */
+    }
+
+    .tab-item {
+        flex: 0 0 auto;
+        /* 内容に応じてサイズ調整 */
     }
 }
